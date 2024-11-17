@@ -1,0 +1,48 @@
+<div class="p-4">
+    <h1 class="flex flex-row justify-between items-center text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+        Your Organizations
+        <button type="button" [routerLink]="['/create-organization']"
+            class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 dark:bg-green-500 dark:hover:bg-green-600 focus:outline-none dark:focus:ring-green-800">
+            Create Organization
+        </button>
+    </h1>
+    <app-container [source$]="organizations$" (onStateChange)="state = $event">
+        @if (state.data?.length) {
+        <div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Organization Card -->
+                @for (org of state.data; track org.id) {
+                <div
+                    class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <!-- Add image container -->
+                    <img class="rounded-t-lg w-full h-48 object-cover" [src]="getSafeImageUrl(org.bannerImage)"
+                        [alt]="org.name + ' image'" onerror="this.src='assets/profile.jpg'">
+
+                    <div class="p-5">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                            {{ org.name }}
+                        </h5>
+
+                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-2">
+                            {{ org.description }}
+                        </p>
+
+                        <div class="flex items-center justify-end">
+                            <button type="button" [routerLink]="['/organization/' + org.id]"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                See
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+        } @else {
+        <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+            role="alert">
+            <span class="font-medium">Nie należysz do żadnej organizacji.</span>
+        </div>
+        }
+    </app-container>
+</div>
