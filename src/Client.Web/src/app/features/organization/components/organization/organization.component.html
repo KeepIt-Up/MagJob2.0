@@ -1,0 +1,20 @@
+@if (organization(); as organization) {
+<div class="flex h-screen" [class.overflow-hidden]="!scrollable()">
+    <app-organization-sidebar [organization]="organization"
+        (sidebarExpandedChange)="sidebarExpandedChange($event)"></app-organization-sidebar>
+    <div class="flex-1 flex flex-col ml-16" [class.ml-64]="sidebarExpanded">
+        <app-navbar></app-navbar>
+        <main class="flex-1 p-4" [class.overflow-hidden]="!scrollable()">
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</div>
+}
+@else if (loading()) {
+<app-navbar></app-navbar>
+<app-spinner></app-spinner>
+}
+@else if (httpError()) {
+<app-navbar></app-navbar>
+<app-http-error-response-alert [error]="httpError()!"></app-http-error-response-alert>
+}

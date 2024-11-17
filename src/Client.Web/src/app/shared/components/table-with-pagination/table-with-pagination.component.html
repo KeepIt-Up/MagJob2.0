@@ -1,0 +1,9 @@
+<app-container [source$]="source$!" (onStateChange)="state = $event" class="w-full h-full">
+    <ng-content></ng-content>
+    @if (state.data; as data) {
+    <app-pagination [items]="data.items" [defaultPageSize]="payload.pageSize" [currentPage]="data.pageNumber"
+        [totalItems]="data.totalCount" (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)">
+        <app-table [rows]="data.items" [columnsConfig]="columnsConfig" (sortBy)="onSortByChange($event)"></app-table>
+    </app-pagination>
+    }
+</app-container>
