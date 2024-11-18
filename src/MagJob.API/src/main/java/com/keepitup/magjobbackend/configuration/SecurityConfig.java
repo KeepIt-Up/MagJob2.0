@@ -25,6 +25,9 @@ public class SecurityConfig {
             /*new AntPathRequestMatcher("/api/users/login")*/
             new AntPathRequestMatcher("/v3/api-docs/**", "GET"),
             new AntPathRequestMatcher("/swagger-ui/**"),
+    };
+
+    private static final AntPathRequestMatcher[] authenticatedList = {
             new AntPathRequestMatcher("/actuator/**"),
             new AntPathRequestMatcher("/api/users/{id}"),
             new AntPathRequestMatcher("/api/users", "GET"),
@@ -64,10 +67,6 @@ public class SecurityConfig {
             new AntPathRequestMatcher("/api/role-members/{id}"),
             new AntPathRequestMatcher("/api/roles/{roleId}/role-members"),
             new AntPathRequestMatcher("/api/members/{memberId}/role-members")
-    };
-
-    private static final AntPathRequestMatcher[] authenticatedList = {
-
     };
 
     @Bean
