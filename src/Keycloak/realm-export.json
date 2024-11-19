@@ -30,7 +30,7 @@
   "enabled": true,
   "sslRequired": "external",
   "registrationAllowed": true,
-  "registrationEmailAsUsername": false,
+  "registrationEmailAsUsername": true,
   "rememberMe": false,
   "verifyEmail": false,
   "loginWithEmailAllowed": true,
@@ -705,6 +705,46 @@
       "attributes": {},
       "realmRoles": [],
       "clientRoles": {}
+    },
+    {
+      "id": "ed7a25a4-5e4e-439d-8528-28cb370261cb",
+      "name": "Moderato1234",
+      "path": "/Moderato1234",
+      "subGroups": [
+        {
+          "id": "bfa4e9c9-b296-44c3-bbe2-8d53767d62ea",
+          "name": "Member",
+          "path": "/Moderato1234/Member",
+          "parentId": "ed7a25a4-5e4e-439d-8528-28cb370261cb",
+          "subGroups": [],
+          "attributes": {},
+          "realmRoles": [],
+          "clientRoles": {}
+        },
+        {
+          "id": "76dcf393-b713-4a16-ab38-537a825c0b04",
+          "name": "Moderator",
+          "path": "/Moderato1234/Moderator",
+          "parentId": "ed7a25a4-5e4e-439d-8528-28cb370261cb",
+          "subGroups": [],
+          "attributes": {},
+          "realmRoles": [],
+          "clientRoles": {}
+        },
+        {
+          "id": "2ce339c6-4b64-4d05-b7d8-76f6946a3bb9",
+          "name": "Owner",
+          "path": "/Moderato1234/Owner",
+          "parentId": "ed7a25a4-5e4e-439d-8528-28cb370261cb",
+          "subGroups": [],
+          "attributes": {},
+          "realmRoles": [],
+          "clientRoles": {}
+        }
+      ],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
     }
   ],
   "defaultRole": {
@@ -961,6 +1001,7 @@
         "http://localhost:8080*"
       ],
       "webOrigins": [
+        "http://localhost:8080",
         "http://localhost:4200"
       ],
       "notBefore": 0,
@@ -977,7 +1018,7 @@
         "realm_client": "false",
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "http://localhost:4200*",
+        "post.logout.redirect.uris": "http://localhost:4200*##http://localhost:8080*",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
