@@ -8,7 +8,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://magjob.database:5432/magjob
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://magjob.database:5433/magjob
     depends_on:
       - keycloak
       - magjob.database
@@ -21,7 +21,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ${APPDATA}/MagJob2.0/db/magjob:/var/lib/postgresql/data
 
