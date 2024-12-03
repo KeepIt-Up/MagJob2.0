@@ -1,13 +1,14 @@
 package com.keepitup.magjobbackend.jwt;
 
-
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 
-import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CustomJwtConverter implements Converter<Jwt, CustomJwt> {
 

@@ -1,18 +1,16 @@
 package com.keepitup.magjobbackend.user.controller.api;
 
 import com.keepitup.magjobbackend.configuration.PageConfig;
-import com.keepitup.magjobbackend.user.dto.*;
+import com.keepitup.magjobbackend.user.dto.GetUserResponse;
+import com.keepitup.magjobbackend.user.dto.GetUsersResponse;
+import com.keepitup.magjobbackend.user.dto.PatchUserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.math.BigInteger;
 import java.util.UUID;
 
 @Tag(name = "User Controller")

@@ -3,7 +3,6 @@ package com.keepitup.magjobbackend.user.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package com.keepitup.magjobbackend.role.function;
 
-import com.keepitup.magjobbackend.role.entity.Role;
 import com.keepitup.magjobbackend.role.dto.GetRoleResponse;
+import com.keepitup.magjobbackend.role.entity.Role;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

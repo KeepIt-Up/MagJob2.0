@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
-import java.util.UUID;
 
 @Tag(name="Role Member Controller")
 public interface RoleMemberController {

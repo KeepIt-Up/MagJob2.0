@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.Optional;
-
 import java.util.UUID;
 
 public interface InvitationService {
