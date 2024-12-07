@@ -1,16 +1,17 @@
 package com.keepitup.magjobbackend.organization.entity;
 
 import com.keepitup.magjobbackend.announcement.entity.Announcement;
+import com.keepitup.magjobbackend.chat.entity.Chat;
 import com.keepitup.magjobbackend.invitation.entity.Invitation;
 import com.keepitup.magjobbackend.material.entity.Material;
 import com.keepitup.magjobbackend.member.entity.Member;
+import com.keepitup.magjobbackend.notification.entity.Notification;
 import com.keepitup.magjobbackend.role.entity.Role;
 import com.keepitup.magjobbackend.task.entity.Task;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.validator.constraints.URL;
 
 import java.math.BigInteger;
 import java.time.ZonedDateTime;
@@ -59,4 +60,10 @@ public class Organization {
 
     @OneToMany(mappedBy = "organization")
     private List<Material> materials;
+
+    @OneToMany(mappedBy = "organization")
+    private List<Chat> chats;
+
+    @OneToMany(mappedBy = "organization")
+    private List<Notification> notifications;
 }

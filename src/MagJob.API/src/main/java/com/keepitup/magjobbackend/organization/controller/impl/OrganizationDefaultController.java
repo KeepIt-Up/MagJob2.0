@@ -1,15 +1,27 @@
 package com.keepitup.magjobbackend.organization.controller.impl;
 
+import com.keepitup.magjobbackend.chat.entity.Chat;
+import com.keepitup.magjobbackend.chat.service.impl.ChatDefaultService;
+import com.keepitup.magjobbackend.chatmember.entity.ChatMember;
+import com.keepitup.magjobbackend.chatmember.service.api.ChatMemberService;
 import com.keepitup.magjobbackend.configuration.Constants;
 import com.keepitup.magjobbackend.configuration.KeycloakController;
 import com.keepitup.magjobbackend.configuration.SecurityService;
 import com.keepitup.magjobbackend.jwt.CustomJwt;
 import com.keepitup.magjobbackend.member.entity.Member;
 import com.keepitup.magjobbackend.member.service.api.MemberService;
+import com.keepitup.magjobbackend.notification.entity.Notification;
+import com.keepitup.magjobbackend.notification.service.impl.NotificationDefaultService;
 import com.keepitup.magjobbackend.organization.controller.api.OrganizationController;
-import com.keepitup.magjobbackend.organization.dto.*;
+import com.keepitup.magjobbackend.organization.dto.GetOrganizationResponse;
+import com.keepitup.magjobbackend.organization.dto.GetOrganizationsResponse;
+import com.keepitup.magjobbackend.organization.dto.PatchOrganizationRequest;
+import com.keepitup.magjobbackend.organization.dto.PostOrganizationRequest;
 import com.keepitup.magjobbackend.organization.entity.Organization;
-import com.keepitup.magjobbackend.organization.function.*;
+import com.keepitup.magjobbackend.organization.function.OrganizationToResponseFunction;
+import com.keepitup.magjobbackend.organization.function.OrganizationsToResponseFunction;
+import com.keepitup.magjobbackend.organization.function.RequestToOrganizationFunction;
+import com.keepitup.magjobbackend.organization.function.UpdateOrganizationWithRequestFunction;
 import com.keepitup.magjobbackend.organization.service.api.OrganizationService;
 import com.keepitup.magjobbackend.role.entity.Role;
 import com.keepitup.magjobbackend.role.service.api.RoleService;
@@ -45,6 +57,9 @@ public class OrganizationDefaultController implements OrganizationController {
     private final UserService userService;
     private final RoleService roleService;
     private final RoleMemberService roleMemberService;
+    private final ChatDefaultService chatService;
+    private final NotificationDefaultService notificationService;
+    private final ChatMemberService chatMemberService;
     private final KeycloakController keycloakController;
     private final SecurityService securityService;
 
@@ -59,6 +74,9 @@ public class OrganizationDefaultController implements OrganizationController {
             OrganizationToResponseFunction organizationToResponse,
             RequestToOrganizationFunction requestToOrganization,
             UpdateOrganizationWithRequestFunction updateOrganizationWithRequest,
+            ChatDefaultService chatService,
+            ChatMemberService chatMemberService,
+            NotificationDefaultService notificationService,
             KeycloakController keycloakController,
             SecurityService securityService
     ) {
@@ -71,6 +89,9 @@ public class OrganizationDefaultController implements OrganizationController {
         this.organizationToResponse = organizationToResponse;
         this.requestToOrganization = requestToOrganization;
         this.updateOrganizationWithRequest = updateOrganizationWithRequest;
+        this.chatService = chatService;
+        this.chatMemberService = chatMemberService;
+        this.notificationService = notificationService;
         this.keycloakController = keycloakController;
         this.securityService = securityService;
     }
@@ -180,7 +201,14 @@ public class OrganizationDefaultController implements OrganizationController {
                             .role(ownerRole.get())
                             .member(ownerMember.get())
                             .build());
+
+                    createInitialChat(createdOrganization.get(), ownerMember.get());
                 }
+
+                notificationService.create(Notification.builder()
+                        .user(user.get())
+                        .content(String.format(Constants.NOTIFICATION_ORGANIZATION_CREATION_TEMPLATE, createdOrganization.get().getName()))
+                        .build());
             }
         }
         return service.findByName(postOrganizationRequest.getName())
@@ -200,7 +228,14 @@ public class OrganizationDefaultController implements OrganizationController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
+        List<User> users = memberService.findAllUsersByOrganization(id, Pageable.unpaged()).get().stream().toList();
+
         service.delete(id);
+
+        users.forEach(user -> notificationService.create(Notification.builder()
+                .user(user)
+                .content(String.format(Constants.NOTIFICATION_ORGANIZATION_DELETION_TEMPLATE, organization.get().getName()))
+                .build()));
     }
 
     @Override
@@ -216,6 +251,32 @@ public class OrganizationDefaultController implements OrganizationController {
         }
 
         service.update(updateOrganizationWithRequest.apply(organization.get(), patchOrganizationRequest));
+
+        notificationService.create(Notification.builder()
+                .organization(organization.get())
+                .content(String.format(Constants.NOTIFICATION_ORGANIZATION_UPDATE_TEMPLATE, organization.get().getName()))
+                .build());
+
         return getOrganization(id);
+    }
+
+    private void createInitialChat(Organization organization, Member admin) {
+        String chatName = "Main chat - " + organization.getName();
+        chatService.create(Chat.builder()
+                .title(chatName)
+                .organization(organization)
+                .build());
+        Optional<Chat> createdChat = chatService.findByTitle(chatName);
+        if (createdChat.isPresent()) {
+            chatMemberService.acceptInvitation(ChatMember.builder()
+                    .chat(createdChat.get())
+                    .nickname(admin.getPseudonym())
+                    .isInvitationAccepted(true)
+                    .member(admin)
+                    .build());
+            ChatMember adminChatMember = chatMemberService.findByMemberAndChat(admin, createdChat.get())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+            chatService.addAdmin(createdChat.get(), adminChatMember);
+        }
     }
 }

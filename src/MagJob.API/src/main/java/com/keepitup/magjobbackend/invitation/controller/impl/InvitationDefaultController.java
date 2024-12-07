@@ -18,6 +18,8 @@ import com.keepitup.magjobbackend.member.dto.GetMemberResponse;
 import com.keepitup.magjobbackend.member.entity.Member;
 import com.keepitup.magjobbackend.member.function.MemberToResponseFunction;
 import com.keepitup.magjobbackend.member.service.api.MemberService;
+import com.keepitup.magjobbackend.notification.entity.Notification;
+import com.keepitup.magjobbackend.notification.service.impl.NotificationDefaultService;
 import com.keepitup.magjobbackend.organization.entity.Organization;
 import com.keepitup.magjobbackend.organization.service.api.OrganizationService;
 import com.keepitup.magjobbackend.user.entity.User;
@@ -47,22 +49,25 @@ public class InvitationDefaultController implements InvitationController {
     private final MemberService memberService;
     private final UserService userService;
     private final OrganizationService organizationService;
+    private final NotificationDefaultService notificationService;
     private final MemberToResponseFunction memberToResponse;
     private final KeycloakController keycloakController;
     private final SecurityService securityService;
 
 
     @Autowired
-    public InvitationDefaultController(InvitationService service,
-                                       InvitationsToResponseFunction invitationsToResponse,
-                                       InvitationToResponseFunction invitationToResponse,
-                                       RequestToInvitationFunction requestToInvitation,
-                                       MemberService memberService,
-                                       UserService userService,
-                                       OrganizationService organizationService,
-                                       MemberToResponseFunction memberToResponse,
-                                       KeycloakController keycloakController,
-                                       SecurityService securityService
+    public InvitationDefaultController(
+            InvitationService service,
+            InvitationsToResponseFunction invitationsToResponse,
+            InvitationToResponseFunction invitationToResponse,
+            RequestToInvitationFunction requestToInvitation,
+            MemberService memberService,
+            UserService userService,
+            OrganizationService organizationService,
+            NotificationDefaultService notificationService,
+            MemberToResponseFunction memberToResponse,
+            KeycloakController keycloakController,
+            SecurityService securityService
     ) {
         this.service = service;
         this.invitationsToResponse = invitationsToResponse;
@@ -71,6 +76,7 @@ public class InvitationDefaultController implements InvitationController {
         this.memberService = memberService;
         this.userService = userService;
         this.organizationService = organizationService;
+        this.notificationService = notificationService;
         this.memberToResponse = memberToResponse;
         this.keycloakController = keycloakController;
         this.securityService = securityService;
@@ -174,6 +180,11 @@ public class InvitationDefaultController implements InvitationController {
             invitationOptional.get().setOrganization(organization);
         }
 
+        notificationService.create(Notification.builder()
+                .user(user)
+                .content(String.format(Constants.NOTIFICATION_INVITATION_CREATION_TEMPLATE, organization.getName()))
+                .build());
+
         return invitationOptional
                 .map(invitationToResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -225,6 +236,11 @@ public class InvitationDefaultController implements InvitationController {
                 keycloakController.addUserToKeycloakGroup(organization.get().getName(), user.get().getId());
 
                 service.delete(user.get().getId(), organization.get().getId());
+
+                notificationService.create(Notification.builder()
+                        .user(user.get())
+                        .content(String.format(Constants.NOTIFICATION_INVITATION_ACCEPT_TEMPLATE, organization.get().getName()))
+                        .build());
             } else {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
             }
