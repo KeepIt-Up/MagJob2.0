@@ -2,14 +2,13 @@ package com.keepitup.magjobbackend.configuration;
 
 import com.keepitup.magjobbackend.user.entity.User;
 import jakarta.ws.rs.core.Response;
+import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.GroupRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.keycloak.admin.client.CreatedResponseUtil;
-
 
 import java.util.*;
 

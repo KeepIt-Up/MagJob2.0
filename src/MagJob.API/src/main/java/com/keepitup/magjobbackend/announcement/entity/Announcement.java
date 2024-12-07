@@ -1,7 +1,7 @@
 package com.keepitup.magjobbackend.announcement.entity;
 
-import com.keepitup.magjobbackend.organization.entity.Organization;
 import com.keepitup.magjobbackend.announcementreceiver.entity.AnnouncementReceiver;
+import com.keepitup.magjobbackend.organization.entity.Organization;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

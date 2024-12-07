@@ -5,7 +5,6 @@ import com.keepitup.magjobbackend.organization.entity.Organization;
 import com.keepitup.magjobbackend.util.ImageUtil;
 import org.springframework.stereotype.Component;
 
-import java.time.ZonedDateTime;
 import java.util.function.Function;
 
 @Component

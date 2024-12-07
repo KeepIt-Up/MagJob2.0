@@ -1,7 +1,10 @@
 package com.keepitup.magjobbackend.organization.controller.api;
 
 import com.keepitup.magjobbackend.configuration.PageConfig;
-import com.keepitup.magjobbackend.organization.dto.*;
+import com.keepitup.magjobbackend.organization.dto.GetOrganizationResponse;
+import com.keepitup.magjobbackend.organization.dto.GetOrganizationsResponse;
+import com.keepitup.magjobbackend.organization.dto.PatchOrganizationRequest;
+import com.keepitup.magjobbackend.organization.dto.PostOrganizationRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;

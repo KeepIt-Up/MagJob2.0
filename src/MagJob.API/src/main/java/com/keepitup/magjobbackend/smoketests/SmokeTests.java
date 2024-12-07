@@ -1,26 +1,15 @@
 package com.keepitup.magjobbackend.smoketests;
 
-import com.keepitup.magjobbackend.invitation.dto.AcceptInvitationRequest;
-import com.keepitup.magjobbackend.invitation.dto.GetInvitationsResponse;
-import com.keepitup.magjobbackend.invitation.dto.PostInvitationRequest;
-import com.keepitup.magjobbackend.member.dto.PatchMemberRequest;
-import com.keepitup.magjobbackend.member.dto.PostMemberRequest;
-import com.keepitup.magjobbackend.organization.dto.PatchOrganizationRequest;
-import com.keepitup.magjobbackend.organization.dto.PostOrganizationRequest;
-import com.keepitup.magjobbackend.user.dto.PatchUserRequest;
 import com.keepitup.magjobbackend.user.dto.PostUserRequest;
-import com.keepitup.magjobbackend.user.dto.PutPasswordRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigInteger;

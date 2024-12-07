@@ -4,10 +4,10 @@ import com.keepitup.magjobbackend.organization.entity.Organization;
 import com.keepitup.magjobbackend.organization.repository.api.OrganizationRepository;
 import com.keepitup.magjobbackend.organization.service.api.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.List;

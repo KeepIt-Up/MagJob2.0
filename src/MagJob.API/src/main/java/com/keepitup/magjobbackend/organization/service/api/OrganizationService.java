@@ -1,9 +1,9 @@
 package com.keepitup.magjobbackend.organization.service.api;
 
 import com.keepitup.magjobbackend.organization.entity.Organization;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import java.math.BigInteger;
 import java.time.ZonedDateTime;
 import java.util.List;
