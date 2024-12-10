@@ -1,10 +1,7 @@
 package com.keepitup.magjobbackend.organization.controller.api;
 
 import com.keepitup.magjobbackend.configuration.PageConfig;
-import com.keepitup.magjobbackend.organization.dto.GetOrganizationResponse;
-import com.keepitup.magjobbackend.organization.dto.GetOrganizationsResponse;
-import com.keepitup.magjobbackend.organization.dto.PatchOrganizationRequest;
-import com.keepitup.magjobbackend.organization.dto.PostOrganizationRequest;
+import com.keepitup.magjobbackend.organization.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +17,7 @@ public interface OrganizationController {
     PageConfig pageConfig = new PageConfig();
 
     @Operation(summary = "Get all Organizations")
-    @GetMapping("api/organizations")
+    @PostMapping("api/getorganizations")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     GetOrganizationsResponse getOrganizations(
@@ -35,7 +32,19 @@ public interface OrganizationController {
                     description = "Number of records per page"
             )
             @RequestParam(defaultValue = "#{pageConfig.size}")
-            int size
+            int size,
+            @Parameter(
+                    name = "ascending",
+                    description = "Is ascending"
+            )
+            @RequestParam(defaultValue = "true")
+            boolean ascending,
+            @Parameter(
+                    name = "sortField",
+                    description = "Field to sort by"
+            )
+            @RequestParam(defaultValue = "id")
+            String sortField
     );
 
     @Operation(summary = "Get Organizations By User id")

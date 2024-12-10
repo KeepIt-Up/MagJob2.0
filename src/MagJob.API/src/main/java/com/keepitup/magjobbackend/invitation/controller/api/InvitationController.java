@@ -66,7 +66,7 @@ public interface InvitationController {
     );
 
     @Operation(summary = "Get Invitations By Organization")
-    @GetMapping("/api/organizations/{organizationId}/invitations")
+    @PostMapping("/api/organizations/invitations")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     GetInvitationsResponse getInvitationsByOrganization(
@@ -87,8 +87,19 @@ public interface InvitationController {
                     description = "Organization id value",
                     required = true
             )
-            @PathVariable("organizationId")
-            BigInteger organizationId
+            BigInteger organizationId,
+            @Parameter(
+                    name = "ascending",
+                    description = "Is ascending"
+            )
+            @RequestParam(defaultValue = "true")
+            boolean ascending,
+            @Parameter(
+                    name = "sortField",
+                    description = "Field to sort by"
+            )
+            @RequestParam(defaultValue = "id")
+            String sortField
     );
 
     @Operation(summary = "Send Invitation")
