@@ -1,6 +1,5 @@
 package com.keepitup.magjobbackend.announcement.dto;
 
-import com.keepitup.magjobbackend.member.dto.GetMemberResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 

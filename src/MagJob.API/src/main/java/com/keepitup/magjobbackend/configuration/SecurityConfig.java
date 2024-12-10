@@ -22,7 +22,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     private static final AntPathRequestMatcher[] permitAllList = {
             new AntPathRequestMatcher("/api/users", "POST"),
-            /*new AntPathRequestMatcher("/api/users/login")*/
             new AntPathRequestMatcher("/v3/api-docs/**", "GET"),
             new AntPathRequestMatcher("/swagger-ui/**"),
     };
@@ -74,16 +73,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    //Rest of old implementation
-    /*@Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .sessionManagement(httpSecuritySessionManagementConfigurer ->
-                        httpSecuritySessionManagementConfigurer
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .csrf(AbstractHttpConfigurer::disable)
-    }*/
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())

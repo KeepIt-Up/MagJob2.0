@@ -16,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -67,15 +69,16 @@ public class MemberDefaultController implements MemberController {
         if (!securityService.hasAdminPermission()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-  
+
         PageRequest pageRequest = PageRequest.of(page, size);
         Integer count = service.findAllByIsStillMember(true, Pageable.unpaged()).getNumberOfElements();
         return membersToResponse.apply(service.findAllByIsStillMember(true, pageRequest), count);
     }
 
     @Override
-    public GetMembersByOrganizationResponse getMembersByOrganization(int page, int size, BigInteger organizationId) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+    public GetMembersByOrganizationResponse getMembersByOrganization(int page, int size, BigInteger organizationId, boolean ascending, String sortField) {
+        Sort sort = ascending ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
 
         Optional<Organization> organizationOptional = organizationService.find(organizationId);
 

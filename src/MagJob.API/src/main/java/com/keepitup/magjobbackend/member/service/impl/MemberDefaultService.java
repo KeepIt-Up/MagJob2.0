@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class MemberDefaultService implements MemberService {

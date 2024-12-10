@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
@@ -98,7 +99,7 @@ public class InvitationDefaultController implements InvitationController {
         if (!loggedInUserId.equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-  
+
         PageRequest pageRequest = PageRequest.of(page, size);
 
         Optional<Page<Invitation>> countOptional = service.findAllByUserAndIsActive(userId, true, Pageable.unpaged());
@@ -115,7 +116,7 @@ public class InvitationDefaultController implements InvitationController {
     }
 
     @Override
-    public GetInvitationsResponse getInvitationsByOrganization(int page, int size, BigInteger organizationId) {
+    public GetInvitationsResponse getInvitationsByOrganization(int page, int size, BigInteger organizationId, boolean ascending, String sortField) {
         Optional<Organization> organizationOptional = organizationService.find(organizationId);
 
         Organization organization = organizationOptional
@@ -124,8 +125,9 @@ public class InvitationDefaultController implements InvitationController {
         if(!securityService.belongsToOrganization(organization)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-      
-        PageRequest pageRequest = PageRequest.of(page, size);
+        Sort sort = ascending ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
 
         Optional<Page<Invitation>> countOptional = service.findAllByOrganizationAndIsActive(organizationId, true, Pageable.unpaged());
         if (countOptional.isEmpty()) {

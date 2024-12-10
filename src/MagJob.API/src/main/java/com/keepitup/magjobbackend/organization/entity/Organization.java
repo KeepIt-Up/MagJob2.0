@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.validator.constraints.URL;
 
 import java.math.BigInteger;
 import java.time.ZonedDateTime;

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,8 +77,9 @@ public class OrganizationDefaultController implements OrganizationController {
     }
 
     @Override
-    public GetOrganizationsResponse getOrganizations(int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+    public GetOrganizationsResponse getOrganizations(int page, int size, boolean ascending, String sortField) {
+        Sort sort = ascending ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
         Integer count = service.findAll().size();
         return organizationsToResponse.apply(service.findAll(pageRequest), count);
     }
@@ -104,7 +106,7 @@ public class OrganizationDefaultController implements OrganizationController {
         if (!loggedInUserId.equals(userId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-  
+
         PageRequest pageRequest = PageRequest.of(page, size);
 
         Optional<Page<Organization>> countOptional = memberService.findAllOrganizationsByUser(userId, Pageable.unpaged());

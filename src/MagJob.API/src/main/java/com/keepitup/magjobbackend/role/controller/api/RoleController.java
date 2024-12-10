@@ -1,7 +1,7 @@
 package com.keepitup.magjobbackend.role.controller.api;
 
-import com.keepitup.magjobbackend.role.dto.*;
 import com.keepitup.magjobbackend.configuration.PageConfig;
+import com.keepitup.magjobbackend.role.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;

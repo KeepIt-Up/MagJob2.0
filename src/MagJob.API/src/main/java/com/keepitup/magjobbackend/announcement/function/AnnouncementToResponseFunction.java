@@ -2,7 +2,6 @@ package com.keepitup.magjobbackend.announcement.function;
 
 import com.keepitup.magjobbackend.announcement.dto.GetAnnouncementResponse;
 import com.keepitup.magjobbackend.announcement.entity.Announcement;
-import com.keepitup.magjobbackend.member.dto.GetMemberResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;

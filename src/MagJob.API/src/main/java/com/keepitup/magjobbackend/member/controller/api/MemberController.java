@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Tag(name="Member Controller")
 public interface MemberController {
@@ -49,7 +50,7 @@ public interface MemberController {
     );
 
     @Operation(summary = "Get Members By Organization")
-    @GetMapping("api/organizations/{organizationId}/members")
+    @PostMapping("api/organizations/members")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     GetMembersByOrganizationResponse getMembersByOrganization(
@@ -70,9 +71,21 @@ public interface MemberController {
                     description = "Organization id value",
                     required = true
             )
-            @PathVariable("organizationId")
-            BigInteger organizationId
+            BigInteger organizationId,
+            @Parameter(
+                    name = "ascending",
+                    description = "Is ascending"
+            )
+            @RequestParam(defaultValue = "true")
+            boolean ascending,
+            @Parameter(
+                    name = "sortField",
+                    description = "Field to sort by"
+            )
+            @RequestParam(defaultValue = "id")
+            String sortField
     );
+
 
     @Operation(summary = "Create Member")
     @PostMapping("api/members")

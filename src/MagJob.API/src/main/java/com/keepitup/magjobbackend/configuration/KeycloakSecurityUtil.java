@@ -1,9 +1,9 @@
 package com.keepitup.magjobbackend.configuration;
 
+import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.keycloak.admin.client.Keycloak;
 
 @Component
 public class KeycloakSecurityUtil {

@@ -3,7 +3,6 @@ package com.keepitup.magjobbackend.material.function;
 import com.keepitup.magjobbackend.material.dto.PatchMaterialRequest;
 import com.keepitup.magjobbackend.material.entity.Material;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.util.function.BiFunction;
 
