@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { OrganizationService } from '../../../../apis/organization.api.service';
 import { UserContextService } from '../../../../core/services/user-context.service';
 import { ContainerComponent, ContainerState } from "../../../../shared/components/container/container.component";
@@ -28,11 +28,8 @@ export class UserOrganizationsComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.userContextService.userClaims$.subscribe(claims => {
-      if (claims) {
-        this.organizations$ = this.organizationsService.getOrganizationsByUserId(claims['sub']);
-      }
-    });
+    const userId = this.userContextService.$user()!.id;
+    this.organizations$ = this.organizationsService.getOrganizationsByUserId(userId);
   }
 
   getSafeImageUrl(base64String: string | undefined): SafeUrl | undefined {

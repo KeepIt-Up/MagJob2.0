@@ -8,8 +8,12 @@ import { Observable } from "rxjs";
 export class UserApiService {
     constructor(private http: HttpClient) { }
 
-    createUser(): Observable<User> {
+    create(): Observable<User> {
         return this.http.post<User>('/api/users', {});
+    }
+
+    getById(userId: string) {
+        return this.http.get<User>(`/api/users/${userId}`);
     }
 }
 

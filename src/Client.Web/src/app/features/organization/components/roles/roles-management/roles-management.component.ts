@@ -1,19 +1,16 @@
-import { Component, computed, effect, inject, OnChanges, OnDestroy, OnInit, signal, SimpleChanges } from '@angular/core';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, effect, inject, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ScrollControlService } from '../../../../../core/services/scroll-control.service';
-import { OrganizationStore } from '../../../stores/organization.store';
 import { RoleStore } from '../../../stores/role.store';
 import { RoleApiService } from '../../../../../apis/role.api.service';
 import { PermissionApiService } from '../../../../../apis/permission.api.service';
 import { NotificationService } from '@shared/services/notification.service';
 import { MemberService } from '../../../../../apis/member.api.service';
-import { AssignMembersPayload, CreateRolePayload, Permission, Role } from '../../../../../types/role/role';
+import { Permission, Role } from '../../../../../types/role/role';
 import { Member } from '../../../../../types/member/member';
 import { RolesListComponent } from '../roles-list/roles-list.component';
 import { MemberSearchModalComponent } from '../../members/member-search-modal/member-search-modal.component';
 import { TabsComponent } from '@shared/components/tabs/tabs.component';
-import { RoleMembersComponent } from '../role-members/role-members.component';
 import { SpinnerComponent } from '@shared/components/spinner/spinner.component';
 
 interface Tab {
@@ -24,7 +21,7 @@ interface Tab {
 @Component({
   selector: 'app-roles-management',
   standalone: true,
-  imports: [FormsModule, RolesListComponent, RoleMembersComponent, MemberSearchModalComponent, TabsComponent, SpinnerComponent, AsyncPipe],
+  imports: [FormsModule, RolesListComponent, MemberSearchModalComponent, TabsComponent, SpinnerComponent],
   templateUrl: './roles-management.component.html',
 })
 export class RolesManagementComponent implements OnInit, OnChanges, OnDestroy {

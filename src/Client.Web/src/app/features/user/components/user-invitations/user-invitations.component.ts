@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { ContainerComponent, ContainerState } from '../../../../shared/components/container/container.component';
 import { InvitationService } from '../../../../apis/invitation.api.service';
 import { Invitation, InvitationStatus } from '../../../../types/invitation/invitation';
@@ -26,11 +26,8 @@ export class UserInvitationsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.userContextService.userClaims$.subscribe(claims => {
-      if (claims) {
-        this.invitations$ = this.invitationService.getUserInvitations(claims['sub']);
-      }
-    });
+    const userId = this.userContextService.$user()!.id;
+    this.invitations$ = this.invitationService.getUserInvitations(userId);
   }
 
   acceptInvitation(invitationId: string): void {

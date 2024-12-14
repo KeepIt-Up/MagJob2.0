@@ -10,7 +10,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
   templateUrl: './user-sidebar.component.html',
   styleUrl: './user-sidebar.component.css'
 })
-export class UserSidebarComponent implements OnInit {
+export class UserSidebarComponent {
   private authService = inject(OAuthService);
   userContextService = inject(UserContextService);
   sidebarExpanded: boolean = true;
@@ -21,19 +21,9 @@ export class UserSidebarComponent implements OnInit {
     this.sidebarExpandedChange.emit(this.sidebarExpanded);
   }
 
-  userName?: string;
-
-  ngOnInit(): void {
-    this.userContextService.userClaims$.subscribe(claims => {
-      if (claims) {
-        this.userName = claims['name'];
-      }
-    });
-  }
+  $user = this.userContextService.$user;
 
   logOut() {
     this.authService.logOut();
   }
-
-
 }
