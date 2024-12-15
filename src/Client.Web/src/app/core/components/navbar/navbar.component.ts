@@ -7,10 +7,8 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
 import { OAuthService } from 'angular-oauth2-oidc';
 @Component({
   selector: 'app-navbar',
-  standalone: true,
   imports: [SearchInputComponent, CommonModule, DropdownComponent, RouterLink, ClickOutsideDirective],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
   isDropdownOpen = false;

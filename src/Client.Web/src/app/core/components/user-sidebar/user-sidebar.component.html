@@ -10,7 +10,9 @@
         class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
         <!-- User Name -->
         <a class="flex items-center my-3 px-2" [routerLink]="['']">
-            <span class="self-center text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{userName}}</span>
+            <span
+                class="self-center text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{$user()?.firstname}}
+                {{$user()?.lastname}}</span>
         </a>
 
         <hr class="h-px my-4 bg-gray-200 dark:bg-gray-700 border-0">

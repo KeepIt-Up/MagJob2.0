@@ -8,9 +8,8 @@ export interface Tab {
 
 @Component({
     selector: 'app-tabs',
-    standalone: true,
     imports: [CommonModule],
-    templateUrl: './tabs.component.html',
+    templateUrl: './tabs.component.html'
 })
 export class TabsComponent {
     @Input() tabs: Tab[] = [];

@@ -9,8 +9,7 @@ export interface ErrorMessages {
   selector: 'app-http-error-response-alert',
   standalone: true,
   imports: [],
-  templateUrl: './http-error-response-alert.component.html',
-  styleUrl: './http-error-response-alert.component.css'
+  templateUrl: './http-error-response-alert.component.html'
 })
 export class HttpErrorResponseAlertComponent {
   @Input({ required: true }) error!: HttpErrorResponse;

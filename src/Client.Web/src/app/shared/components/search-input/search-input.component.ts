@@ -1,18 +1,16 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, input, output } from "@angular/core";
+
 
 @Component({
   selector: 'app-search-input',
-  standalone: true,
-  imports: [],
-  templateUrl: './search-input.component.html',
-  styleUrl: './search-input.component.css'
+  templateUrl: './search-input.component.html'
 })
 export class SearchInputComponent {
-  @Input() placeholder: string = '';
-  @Output() onValueChange = new EventEmitter<string>();
-  @Input() disabled: boolean = false;
+  placeholder = input<string>('');
+  disabled = input<boolean>(false);
+  valueChange = output<string>();
 
-  clear() {
-    this.onValueChange.emit('');
+  clear(): void {
+    this.valueChange.emit('');
   }
 }

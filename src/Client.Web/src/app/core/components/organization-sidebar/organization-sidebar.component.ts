@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Organization } from '../../../types/organization/organization';
+import { Organization } from '../../../features/models/organization/organization';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { ImageService } from '@shared/services/image.service';
 import { SafeUrl } from '@angular/platform-browser';
@@ -13,10 +13,9 @@ interface NavItem {
 
 @Component({
   selector: 'app-organization-sidebar',
-  standalone: true,
   imports: [RouterLink, RouterLinkActive],
   templateUrl: './organization-sidebar.component.html',
-  styleUrl: './organization-sidebar.component.css'
+  styleUrl: './organization-sidebar.component.scss'
 })
 export class OrganizationSidebarComponent {
   @Input() organization!: Organization;

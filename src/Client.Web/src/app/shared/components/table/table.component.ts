@@ -23,15 +23,14 @@ export type SortBy<T> = {
 }
 
 @Component({
-  selector: 'app-table',
-  standalone: true,
-  imports: [DynamicPipe, NgComponentOutlet],
-  templateUrl: './table.component.html',
-  styleUrl: './table.component.css'
+    selector: 'app-table',
+    imports: [DynamicPipe, NgComponentOutlet],
+    templateUrl: './table.component.html'
 })
-export class TableComponent<T extends { id: string }> implements OnChanges {
+export class TableComponent<T extends { id: K }, K = string> implements OnChanges {
   @Input({ required: true }) rows!: T[];
   @Input({ required: true }) columnsConfig!: ColumnDefinition<T>[];
+  @Input() showCheckboxes = false;
   @Output() sortBy = new EventEmitter<SortBy<T>>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -40,7 +39,7 @@ export class TableComponent<T extends { id: string }> implements OnChanges {
     }
   }
 
-  selectedRows = new Set<string>();
+  selectedRows = new Set<K>();
 
   toggleAllRows(checked: boolean) {
     if (checked) {
@@ -50,7 +49,7 @@ export class TableComponent<T extends { id: string }> implements OnChanges {
     }
   }
 
-  isRowSelected(id: string): boolean {
+  isRowSelected(id: K): boolean {
     return this.selectedRows.has(id);
   }
 
@@ -58,7 +57,7 @@ export class TableComponent<T extends { id: string }> implements OnChanges {
     return this.selectedRows.size === this.rows.length;
   }
 
-  toggleRow(id: string, checked: boolean) {
+  toggleRow(id: K, checked: boolean) {
     if (checked) {
       this.selectedRows.add(id);
     } else {

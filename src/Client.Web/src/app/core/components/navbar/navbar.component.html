@@ -4,7 +4,7 @@
             <span class="text-2xl font-semibold dark:text-white">MagJob</span>
         </a>
         <div class="flex items-center gap-2">
-            <app-search-input class="hidden md:block" (onValueChange)="search($event)" placeholder="Search..."
+            <app-search-input class="hidden md:block" (valueChange)="search($event)" placeholder="Search..."
                 [disabled]="true"></app-search-input>
             <button (click)="toggleDarkMode()"
                 class="hidden md:block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-700">

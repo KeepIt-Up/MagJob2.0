@@ -1,16 +1,15 @@
 import { Routes } from '@angular/router';
-import { OrganizationComponent } from './app/features/organization/components/organization/organization.component';
-import { MembersTableComponent } from './app/features/organization/components/members/members-table/member-table.component';
-import { InvitationTableComponent } from './app/features/organization/components/invitations/invitation-table/invitation-table.component';
-import { OrganizationProfilComponent } from './app/features/organization/components/organization/organization-profil/organization-profil.component';
-import { OrganizationCreatorComponent } from './app/features/organization/components/organization/organization-creator/organization-creator.component';
-import { UserSettingsComponent } from './app/features/user/components/user-settings/user-settings.component';
-import { UserComponent } from './app/features/user/components/user/user.component';
-import { UserProfileComponent } from './app/features/user/components/user-profile/user-profile.component';
-import { UserOrganizationsComponent } from './app/features/user/components/user-organizations/user-organizations.component';
-import { UserInvitationsComponent } from './app/features/user/components/user-invitations/user-invitations.component';
-import { PublicComponent } from './app/features/public/public/public.component';
-import { RolesManagementComponent } from './app/features/organization/components/roles/roles-management/roles-management.component';
+import { InvitationTableComponent } from '@pages/organization/invitation-table/invitation-table.component';
+import { MembersTableComponent } from '@pages/organization/members-table/member-table.component';
+import { OrganizationProfilComponent } from '@pages/organization/organization-profil/organization-profil.component';
+import { OrganizationComponent } from '@pages/organization/organization.component';
+import { RolesManagementComponent } from '@pages/organization/roles-management/roles-management.component';
+import { OrganizationCreatorComponent } from '@pages/public/organization-creator/organization-creator.component';
+import { PublicComponent } from '@pages/public/public.component';
+import { UserInvitationsComponent } from '@pages/user/user-invitations/user-invitations.component';
+import { UserOrganizationsComponent } from '@pages/user/user-organizations/user-organizations.component';
+import { UserSettingsComponent } from '@pages/user/user-settings/user-settings.component';
+import { UserComponent } from '@pages/user/user.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'user', pathMatch: 'full' },
@@ -40,6 +39,6 @@ export const routes: Routes = [
       { path: '**', redirectTo: 'create-organization' }
     ]
   },
-  { path: '**', redirectTo: 'public' }
+  { path: '**', redirectTo: 'user' }
 
 ];
