@@ -1,21 +1,14 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-modal',
-  standalone: true,
   imports: [CommonModule],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.css'
+  templateUrl: './modal.component.html'
 })
 export class ModalComponent {
-  @Input() isOpen = false;
-  @Input({ required: true }) title = '';
+  isOpen = input.required<boolean>();
+  title = input.required<string>();
 
-  @Output() onCloseClick = new EventEmitter<void>();
-
-  onClose(): void {
-    this.isOpen = false;
-    this.onCloseClick.emit();
-  }
+  onCloseClick = output<void>();
 }

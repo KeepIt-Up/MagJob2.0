@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-tag',
-    standalone: true,
     imports: [CommonModule],
     template: `
     <span [ngClass]="colorClasses" class="px-3 py-1 rounded-full text-sm font-medium">

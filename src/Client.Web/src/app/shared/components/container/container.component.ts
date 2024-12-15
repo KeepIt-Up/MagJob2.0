@@ -15,8 +15,7 @@ export interface ContainerState<T> {
   selector: 'app-container',
   standalone: true,
   imports: [CommonModule, SpinnerComponent, HttpErrorResponseAlertComponent],
-  templateUrl: './container.component.html',
-  styleUrl: './container.component.css'
+  templateUrl: './container.component.html'
 })
 export class ContainerComponent<T> implements OnInit, OnChanges, OnDestroy {
   @Input() source$!: Observable<T>;

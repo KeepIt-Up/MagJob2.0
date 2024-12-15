@@ -26,18 +26,12 @@ Before you begin, ensure you have the following installed:
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd ClientWeb
-```
-
-2. Install dependencies:
+1. Install dependencies:
 ```bash
 npm install
 ```
 
-3. Install recommended VS Code extensions:
+2. Install recommended VS Code extensions:
 - Angular Language Service
 - ESLint
 - Prettier (optional)
@@ -60,25 +54,16 @@ docker-compose up
 ```
 src/
 ├── app/
-│   ├── apis/           # API services and interfaces
-│   ├── core/           # Core modules, guards, interceptors
-│   │   ├── components/ # Core components (navbar, sidebar)
-│   │   ├── config/     # Configuration files
-│   │   ├── guards/     # Route guards
-│   │   ├── interceptors/ # HTTP interceptors
-│   │   └── services/   # Core services
-│   ├── features/       # Feature modules
-│   │   ├── organization/
-│   │   ├── public/
-│   │   └── user/
-│   ├── shared/         # Shared modules, components, services
-│   │   ├── components/
-│   │   ├── directives/
-│   │   ├── pipes/
-│   │   └── services/
-│   └── types/          # TypeScript interfaces and types
-├── assets/            # Static assets (images, icons)
-└── styles/           # Global styles and themes
+│ ├── apis/ # API services and interfaces
+│ ├── core/ # Core modules, guards, interceptors
+│ │ ├── components/ # Core components (navbar, sidebar)
+│ │ ├── config/ # Configuration files
+│ │ ├── guards/ # Route guards
+│ │ ├── interceptors/ # HTTP interceptors
+│ │ └── services/ # Core services
+│ ├── features/ # Feature modules
+│ └── shared/ # Shared modules, components, services
+└── assets/ # Static assets
 ```
 
 ## Available Commands

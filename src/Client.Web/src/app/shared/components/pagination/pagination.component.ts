@@ -2,8 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-export interface PaginationPayload<T extends { id: string }, K = undefined> {
-  payload?: K;
+export interface PaginationOptions<T extends { id: string }> {
   pageNumber: number;
   pageSize: number;
   sortField?: keyof T;
@@ -19,12 +18,20 @@ export interface PaginatedResponse<T extends { id: string }> {
   hasNextPage: boolean;
 }
 
+export function serializePaginationOptions<T extends { id: string }>(paginationOptions: PaginationOptions<T>): Record<string, any> {
+  return {
+    'pageNumber': paginationOptions.pageNumber,
+    'pageSize': paginationOptions.pageSize,
+    //'options.sortField': paginationOptions.sortField,
+    //'options.ascending': paginationOptions.ascending
+  }
+}
+
 @Component({
   selector: 'app-pagination',
-  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.css']
+  styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent<T extends { id: string }> implements OnInit {
   @Input() items: T[] = [];

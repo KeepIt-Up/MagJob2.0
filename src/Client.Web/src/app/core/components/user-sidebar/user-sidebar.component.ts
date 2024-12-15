@@ -1,18 +1,17 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, computed, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { UserContextService } from '../../services/user-context.service';
+import { UserService } from '@features/services/user.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-user-sidebar',
   standalone: true,
   imports: [RouterLink, RouterLinkActive],
-  templateUrl: './user-sidebar.component.html',
-  styleUrl: './user-sidebar.component.css'
+  templateUrl: './user-sidebar.component.html'
 })
 export class UserSidebarComponent {
   private authService = inject(OAuthService);
-  userContextService = inject(UserContextService);
+  userContext = inject(UserService);
   sidebarExpanded: boolean = true;
   @Output() sidebarExpandedChange = new EventEmitter<boolean>();
 
@@ -21,7 +20,7 @@ export class UserSidebarComponent {
     this.sidebarExpandedChange.emit(this.sidebarExpanded);
   }
 
-  $user = this.userContextService.$user;
+  $user = computed(() => this.userContext.userState$().data);
 
   logOut() {
     this.authService.logOut();

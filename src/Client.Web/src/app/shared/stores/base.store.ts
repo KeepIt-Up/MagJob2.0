@@ -7,6 +7,7 @@ export interface BaseState<T> {
     error: string | HttpErrorResponse | undefined;
 }
 
+//TODO to remove
 export abstract class BaseStore<T> {
     protected readonly state = signal<BaseState<T>>({
         data: null,

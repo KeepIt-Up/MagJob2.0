@@ -2,16 +2,15 @@ import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { tokenInterceptor } from './app/core/interceptors/token.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { OAuthService, provideOAuthClient } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from './app/core/config/auth.config';
-import { circularReferenceInterceptor } from './app/core/interceptors/circular-reference.interceptor';
+import { authCodeFlowConfig } from '@core/config/auth.config';
+import { tokenInterceptor } from '@core/interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideHttpClient(
-            withInterceptors([tokenInterceptor, circularReferenceInterceptor])
+            withInterceptors([tokenInterceptor])
         ),
         provideRouter(routes, withComponentInputBinding()),
         provideOAuthClient(),
@@ -24,7 +23,8 @@ export const appConfig: ApplicationConfig = {
             },
             multi: true,
             deps: [OAuthService],
-        }, provideAnimationsAsync('noop'),
+        },
+        provideAnimationsAsync('noop'),
     ],
 };
 

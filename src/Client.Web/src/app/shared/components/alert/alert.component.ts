@@ -1,25 +1,41 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule, NgClass } from '@angular/common';
+import { Component, input, output } from '@angular/core';
+
+export type AlertType = 'info' | 'danger' | 'success' | 'warning' | 'dark';
 
 @Component({
   selector: 'app-alert',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgClass],
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.css']
+  styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent {
-  @Input() alertType: 'info' | 'danger' | 'success' | 'warning' | 'dark' = 'dark';
-  @Input({ required: true }) title: string = '';
-  @Input() description: string = '';
-  @Output() onDismissClick = new EventEmitter();
-  @Output() onViewMoreClick = new EventEmitter();
-  alertVisible: boolean = true;
-
-  constructor() { }
-
-  dismissAlert(): void {
-    this.alertVisible = false;
-    this.onDismissClick.emit();
-  }
+  /**
+   * @description The title of the alert
+   */
+  title = input.required<string>();
+  /**
+   * @description Whether to show the action buttons
+   */
+  showActionButtons = input<boolean>(false);
+  /**
+   * @description The type of the alert
+   */
+  alertType = input<AlertType>('dark');
+  /**
+   * @description The description of the alert
+   */
+  description = input<string>('');
+  /**
+   * @description Whether the alert is visible
+   */
+  alertVisible = input<boolean>(true);
+  /**
+   * @description The event emitted when the dismiss button is clicked
+   */
+  dismissClick = output<void>();
+  /**
+   * @description The event emitted when the view more button is clicked
+   */
+  viewMoreClick = output<void>();
 }
