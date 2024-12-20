@@ -1,4 +1,3 @@
-using Npgsql.Replication;
 using Organizations.API.Common.Models;
 
 namespace Organizations.API.Models
@@ -48,10 +47,7 @@ namespace Organizations.API.Models
                 Name = name;
             }
 
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                Description = description;
-            }
+            Description = description;
 
             if (profileImage != null)
             {

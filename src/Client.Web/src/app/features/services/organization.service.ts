@@ -17,8 +17,7 @@ export class OrganizationService {
 
   private stateService = new StateService<Organization>();
   private invitationStateService = new StateService<PaginatedResponse<Invitation>>();
-  private memberStateService = new StateService<PaginatedResponse<Member>>();
-  private memberSearchStateService = new ListStateService<Member, { endOfData: boolean }>();
+
 
   private apiService = inject(OrganizationApiService);
   private notificationService = inject(NotificationService);
@@ -26,24 +25,9 @@ export class OrganizationService {
   state$ = this.stateService.state$;
   $organization = computed(() => this.stateService.state$().data);
   invitationsState$ = this.invitationStateService.state$;
-  membersState$ = this.memberStateService.state$;
-  memberSearchState$ = this.memberSearchStateService.state$;
+
 
   invitationsPaginationOptions$ = signal<PaginationOptions<Invitation>>({
-    pageNumber: 1,
-    pageSize: 10,
-    sortField: "id",
-    ascending: true
-  });
-
-  membersPaginationOptions$ = signal<PaginationOptions<Member>>({
-    pageNumber: 1,
-    pageSize: 10,
-    sortField: "id",
-    ascending: true
-  });
-
-  memberSearchPaginationOptions$ = signal<PaginationOptions<Member>>({
     pageNumber: 1,
     pageSize: 10,
     sortField: "id",
@@ -104,29 +88,6 @@ export class OrganizationService {
         console.log(error);
         this.invitationStateService.setError(error);
         throw error;
-      })
-    );
-  }
-
-  getMembers(): Observable<any> {
-    const query = { organizationId: this.$organization()?.id };
-    return this.apiService.getMembers(query, this.membersPaginationOptions$()).pipe(
-      tap((response: PaginatedResponse<Member>) => {
-        this.memberStateService.setData(response);
-      }),
-    );
-  }
-
-  searchMembers(name: string, organizationId: string) {
-    const query = { organizationId, name };
-    return this.apiService.searchMembers(query, this.memberSearchPaginationOptions$()).pipe(
-      tap((response: PaginatedResponse<Member>) => {
-        this.memberSearchStateService.setData(response.items);
-        this.memberSearchStateService.setMetadata({ endOfData: response.hasNextPage });
-      }),
-      catchError(() => {
-        this.notificationService.show('Failed to search members', 'error');
-        return EMPTY;
       })
     );
   }

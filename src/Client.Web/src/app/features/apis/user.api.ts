@@ -16,12 +16,12 @@ export class UserApiService {
 
     getUserOrganizations(query: Record<any, any>, paginationOptions: PaginationOptions<Organization>): Observable<PaginatedResponse<Organization>> {
         const options = serializePaginationOptions(paginationOptions);
-        return this.http.get<PaginatedResponse<Organization>>(`api/organizations/users/${query['userId']}`, { params: { ...query, ...options } });
+        return this.http.get<PaginatedResponse<Organization>>(`api/organizations/users`, { params: { ...query, ...options } });
     }
 
     getUserInvitations(query: Record<any, any>, paginationOptions: PaginationOptions<Invitation>): Observable<PaginatedResponse<Invitation>> {
         const options = serializePaginationOptions(paginationOptions);
-        return this.http.get<PaginatedResponse<Invitation>>(`${this.apiUrl}/${query['userId']}/invitations`, { params: { ...query, ...options } });
+        return this.http.get<PaginatedResponse<Invitation>>(`${this.apiUrl}/invitations`, { params: { ...query, ...options } });
     }
 
     getAll(query: Record<any, any>, paginationOptions: PaginationOptions<User>) {
@@ -33,8 +33,8 @@ export class UserApiService {
         return this.http.post<User>(`${this.apiUrl}`, {});
     }
 
-    getUser(userId: string) {
-        return this.http.get<User>(`${this.apiUrl}/${userId}`);
+    getUser() {
+        return this.http.get<User>(`${this.apiUrl}/me`);
     }
 
     delete() {

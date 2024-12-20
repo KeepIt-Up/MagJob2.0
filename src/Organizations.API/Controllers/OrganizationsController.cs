@@ -8,6 +8,8 @@ namespace Organizations.API.Controllers;
 
 public record GetOrganizationsByUserIdQuery(string UserId, PaginationOptions Options);
 
+public record CreateOrganizationRequest(string Name, string? Description);
+
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
@@ -23,9 +25,9 @@ public class OrganizationsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateOrganization(string name, string? description)
+    public async Task<IActionResult> CreateOrganization([FromBody] CreateOrganizationRequest request)
     {
-        var createdOrganization = await _organizationService.CreateOrganizationAsync(name, description);
+        var createdOrganization = await _organizationService.CreateOrganizationAsync(request.Name, request.Description);
         return CreatedAtAction(nameof(GetOrganizationById), new { id = createdOrganization.Id }, createdOrganization);
     }
 
@@ -50,7 +52,7 @@ public class OrganizationsController : ControllerBase
             return NotFound();
         }
 
-        return NoContent();
+        return Ok(updatedOrganization);
     }
 
     [HttpDelete("{id}")]

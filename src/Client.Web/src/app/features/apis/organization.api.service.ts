@@ -9,10 +9,7 @@ import { BaseApiService } from '@shared/services/base-api.service';
 
 export interface CreateOrganizationPayload {
   name: string;
-  description: string;
-  logoUrl: string;
-  websiteUrl: string;
-  location: string;
+  description?: string;
 }
 
 interface ServerResponse {
@@ -37,15 +34,5 @@ export class OrganizationApiService extends BaseApiService<Organization> {
   getInvitations(query: Record<any, any>, paginationOptions: PaginationOptions<Invitation>): Observable<PaginatedResponse<Invitation>> {
     const options = serializePaginationOptions(paginationOptions);
     return this.http.get<PaginatedResponse<Invitation>>(`${this.apiUrl}/invitations`, { params: { ...query, ...options } });
-  }
-
-  getMembers(query: Record<any, any>, paginationOptions: PaginationOptions<Member>): Observable<PaginatedResponse<Member>> {
-    const options = serializePaginationOptions(paginationOptions);
-    return this.http.get<PaginatedResponse<Member>>(`${this.apiUrl}/members`, { params: { ...query, ...options } });
-  }
-
-  searchMembers(query: Record<any, any>, paginationOptions: PaginationOptions<Member>): Observable<PaginatedResponse<Member>> {
-    const options = serializePaginationOptions(paginationOptions);
-    return this.http.get<PaginatedResponse<Member>>(`/api/members/search`, { params: { ...query, ...options } });
   }
 }

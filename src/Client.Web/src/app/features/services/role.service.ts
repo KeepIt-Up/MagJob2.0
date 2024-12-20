@@ -36,7 +36,7 @@ export class RoleService {
 
   getRoles(organizationId: string) {
     const query = { organizationId };
-    return this.apiService.getAll(query, this.paginationOptions$()).pipe(
+    return this.apiService.getAllRoles(query, this.paginationOptions$()).pipe(
       tap((response: PaginatedResponse<Role>) => {
         response.items.forEach((role) => this.roleStateService.add(role));
         this.roleStateService.setMetadata({ endOfData: !response.hasNextPage });
@@ -92,8 +92,8 @@ export class RoleService {
     if (!this.selectedRole$()) return;
 
     const currentPermissions = this.selectedRole$()!.permissions;
-    const addPermissions: string[] = [];
-    const removePermissions: string[] = [];
+    const addPermissions: number[] = [];
+    const removePermissions: number[] = [];
 
     // Check which permissions need to be added/removed
     permissions.forEach(({ permission, value }) => {
@@ -142,11 +142,11 @@ export class RoleService {
     }
   }
 
-  addPermissionsToRole(roleId: string, permissionIds: string[]) {
+  addPermissionsToRole(roleId: string, permissionIds: number[]) {
     return this.apiService.addPermissionsToRole(roleId, permissionIds);
   }
 
-  removePermissionsFromRole(roleId: string, permissionIds: string[]) {
+  removePermissionsFromRole(roleId: string, permissionIds: number[]) {
     return this.apiService.removePermissionsFromRole(roleId, permissionIds);
   }
 

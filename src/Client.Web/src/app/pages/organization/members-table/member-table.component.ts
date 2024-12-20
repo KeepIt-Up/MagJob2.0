@@ -19,15 +19,14 @@ export class MembersTableComponent {
   @Input() organizationId!: string;
 
   private memberService = inject(MemberService);
-  private organizationService = inject(OrganizationService);
-  state$ = this.organizationService.membersState$;
-  paginationOptions$ = this.organizationService.membersPaginationOptions$;
+  state$ = this.memberService.membersState$;
+  paginationOptions$ = this.memberService.membersPaginationOptions$;
 
   isEditModalOpen = false;
   selectedMember?: Member;
 
   onGetData() {
-    this.organizationService.getMembers().subscribe();
+    this.memberService.getMembersByOrganizationId("1").subscribe();
   }
 
   columnsConfig: ColumnDefinition<Member>[] = [

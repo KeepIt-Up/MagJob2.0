@@ -11,11 +11,16 @@ import { Observable } from "rxjs";
 export class RoleApiService extends BaseApiService<Role> {
     override readonly apiUrl = '/api/roles';
 
-    addPermissionsToRole(roleId: string, permissionIds: string[]): Observable<void> {
+    getAllRoles(query: Record<any, any>, paginationOptions: PaginationOptions<Role>) {
+        const options = serializePaginationOptions(paginationOptions);
+        return this.http.get<PaginatedResponse<Role>>(`/api/organizations/roles`, { params: { ...query, ...options } });
+    }
+
+    addPermissionsToRole(roleId: string, permissionIds: number[]): Observable<void> {
         return this.http.post<void>(`${this.apiUrl}/${roleId}/permissions`, permissionIds);
     }
 
-    removePermissionsFromRole(roleId: string, permissionIds: string[]): Observable<void> {
+    removePermissionsFromRole(roleId: string, permissionIds: number[]): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${roleId}/permissions`, { body: permissionIds });
     }
 

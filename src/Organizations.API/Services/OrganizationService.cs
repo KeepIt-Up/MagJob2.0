@@ -10,8 +10,8 @@ namespace Organizations.API.Services;
 
 public interface IOrganizationService : IBaseService<Organization>
 {
-    Task<Organization> CreateOrganizationAsync(string name, string? description);
-    Task<Organization> UpdateOrganizationAsync(int id, UpdateOrganizationRequest request);
+    Task<GetOrganizationDto> CreateOrganizationAsync(string name, string? description);
+    Task<GetOrganizationDto> UpdateOrganizationAsync(int id, UpdateOrganizationRequest request);
     Task<PaginatedList<Organization>> GetOrganizationsByUserIdAsync(string userId, PaginationOptions pagination);
     Task<List<Organization>> GetByUserIdAsync(string userId);
     Task<PaginatedList<Organization>> GetByUserIdAsync(string userId, PaginationOptions pagination);
@@ -35,20 +35,41 @@ public class OrganizationService : BaseService<Organization>, IOrganizationServi
         _userAccessor = userAccessor ?? throw new ArgumentNullException(nameof(userAccessor));
     }
 
-    public async Task<Organization> CreateOrganizationAsync(string name, string? description)
+    public async Task<GetOrganizationDto> CreateOrganizationAsync(string name, string? description)
     {
         //check user exists
         //var user = await _userRepository.GetByIdAsync(_userAccessor.GetUserId()) ?? throw new KeyNotFoundException("User with id " + _userAccessor.GetUserId() + " not found");
 
         var organization = Organization.Create(name, _userAccessor.GetUserId(), description);
-        return await _repository.CreateAsync(organization);
+        await _repository.CreateAsync(organization);
+
+        return new GetOrganizationDto()
+        {
+            Id = organization.Id,
+            Name = organization.Name,
+            Description = organization.Description,
+            Archived = organization.Archived,
+            OwnerId = organization.OwnerId,
+            ProfileImage = organization.ProfileImage,
+            BannerImage = organization.BannerImage
+        };
     }
 
-    public async Task<Organization> UpdateOrganizationAsync(int id, UpdateOrganizationRequest request)
+    public async Task<GetOrganizationDto> UpdateOrganizationAsync(int id, UpdateOrganizationRequest request)
     {
         var organization = await _repository.GetByIdAsync(id);
         organization.Update(request.Name, request.Description, request.ProfileImage, request.BannerImage);
-        return await _repository.UpdateAsync(organization);
+        await _repository.UpdateAsync(organization);
+        return new GetOrganizationDto()
+        {
+            Id = organization.Id,
+            Name = organization.Name,
+            Description = organization.Description,
+            Archived = organization.Archived,
+            OwnerId = organization.OwnerId,
+            ProfileImage = organization.ProfileImage,
+            BannerImage = organization.BannerImage
+        };
     }
 
     public async Task<PaginatedList<Organization>> GetOrganizationsByUserIdAsync(string userId, PaginationOptions pagination)
