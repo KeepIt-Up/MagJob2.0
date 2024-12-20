@@ -1,16 +1,25 @@
 services:
-  magjob.api:
-    image: magjob.api:latest
-    container_name: magjob.api
+  apigateway.web:
+    image: ${DOCKER_REGISTRY-}apigatewayweb
+    container_name: apigateway.web
     build:
-      context: src/MagJob.API/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/APIGateway.Web/Dockerfile
     ports:
-      - "5001:5001"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://magjob.database:5433/magjob
+      - "5000:8080"
+      - "5001:8081"
     depends_on:
-      - keycloak
+      - organizations.api
+
+  organizations.api:
+    image: ${DOCKER_REGISTRY-}organizationsapi
+    container_name: organizations.api
+    build:
+      context: .
+      dockerfile: src/Organizations.API/Dockerfile
+    environment:
+      - ConnectionStrings__OrganizationConnection=Host=magjob.database;Database=magjob;Username=postgres;Password=postgres;
+    depends_on:
       - magjob.database
 
   magjob.database:
@@ -34,7 +43,7 @@ services:
     ports:
       - "8080:4200"
     depends_on:
-      - magjob.api
+      - organizations.api
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest
