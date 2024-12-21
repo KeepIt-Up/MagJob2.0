@@ -4,26 +4,30 @@ public sealed class UpdateOrganizationHandler(
     IOrganizationRepository organizationRepository,
     IUnitOfWork unitOfWork,
     IMapper mapper
-    ) : IRequestHandler<UpdateOrganizationRequest, UpdateOrganizationResponse>
+    ) : IRequestHandler<UpdateOrganizationRequest, GetOrganizationResponse>
 {
-    public async Task<UpdateOrganizationResponse> Handle(UpdateOrganizationRequest request, CancellationToken cancellationToken)
+    public async Task<GetOrganizationResponse> Handle(UpdateOrganizationRequest request, CancellationToken cancellationToken)
     {
-        var organizationWithSameName = await organizationRepository.GetByName(request.Name, cancellationToken);
-        if (organizationWithSameName != null)
-        {
-            throw new ConflictException("Organization name must be unique");
-        }
-
         var organization = await organizationRepository.Get(request.OrganizationId, cancellationToken);
         if (organization == null)
         {
             throw new NotFoundException("Organization not found");
         }
 
+        if (request.Name != organization.Name)
+        {
+            var organizationWithSameName = await organizationRepository.GetByName(request.Name, cancellationToken);
+            if (organizationWithSameName != null)
+            {
+                throw new ConflictException("Organization name must be unique");
+            }
+        }
+
+
         organization.Update(request.Name, request.Description, request.ProfileImage, request.BannerImage);
         organizationRepository.Update(organization);
         await unitOfWork.Save(cancellationToken);
 
-        return mapper.Map<UpdateOrganizationResponse>(organization);
+        return mapper.Map<GetOrganizationResponse>(organization);
     }
 }

@@ -47,9 +47,9 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     /// <response code="404"> The organization was not found </response>
     /// <response code="401"> The user is not authorized to access this organization </response>
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateOrganization(UpdateOrganizationRequest request)
+    public async Task<IActionResult> UpdateOrganization(Guid id, UpdateOrganizationRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await _mediator.Send(new UpdateOrganizationRequest(id, request.Name, request.Description, request.ProfileImage, request.BannerImage)));
     }
 
     /// <summary>
