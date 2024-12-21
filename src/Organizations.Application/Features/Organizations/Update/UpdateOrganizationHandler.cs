@@ -8,7 +8,6 @@ public sealed class UpdateOrganizationHandler(
 {
     public async Task<UpdateOrganizationResponse> Handle(UpdateOrganizationRequest request, CancellationToken cancellationToken)
     {
-        //check if organization name is unique
         var organizationWithSameName = await organizationRepository.GetByName(request.Name, cancellationToken);
         if (organizationWithSameName != null)
         {
