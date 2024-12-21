@@ -10,6 +10,7 @@ public static class DatabaseSeeder
 
     public static void SeedTestData(ApplicationDbContext context)
     {
+        OrganizationSeeder.Seed(context);
         context.SaveChanges();
     }
 }

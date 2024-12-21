@@ -76,7 +76,7 @@ export class OrganizationService {
   }
 
   getInvitations(): Observable<any> {
-    const query = { organizationId: this.$organization()?.id };
+    const query = { id: this.$organization()?.id };
     return this.apiService.getInvitations(query, this.invitationsPaginationOptions$()).pipe(
       tap((response: PaginatedResponse<Invitation>) => {
         if (response.items.length === 0) {
