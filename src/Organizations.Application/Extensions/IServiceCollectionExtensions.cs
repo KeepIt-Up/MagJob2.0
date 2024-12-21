@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Organizations.Application.Common.Behaviors;
+using Organizations.Application.Common.Interfaces;
 using System.Reflection;
-
 
 namespace Organizations.Application;
 

@@ -8,6 +8,11 @@ internal class OrganizationRepository : BaseRepository<Organization>, IOrganizat
     {
     }
 
+    public async Task<Organization?> GetByName(string name, CancellationToken cancellationToken)
+    {
+        return await Context.Set<Organization>().FirstOrDefaultAsync(o => o.Name == name, cancellationToken);
+    }
+
     public async Task<(byte[]? profileImage, byte[]? bannerImage)> GetOrganizationImagesAsync(Guid organizationId)
     {
         var organization = await Context.Set<Organization>()

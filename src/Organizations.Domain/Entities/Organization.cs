@@ -1,19 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Organizations.Domain.Entities;
 
+[Index(nameof(Name), IsUnique = true)]
 public class Organization : BaseEntity
 {
     public string Name { get; set; }
     public string? Description { get; set; }
-    public bool Archived { get; set; } = false;
-
     public Guid OwnerId { get; set; }
-
+    public byte[]? ProfileImage { get; set; }
+    public byte[]? BannerImage { get; set; }
     public List<Invitation> Invitations { get; set; } = [];
     public List<Member> Members { get; set; } = [];
     public List<Role> Roles { get; set; } = [];
-
-    public byte[]? ProfileImage { get; set; }
-    public byte[]? BannerImage { get; set; }
 
     private Organization() { }
 

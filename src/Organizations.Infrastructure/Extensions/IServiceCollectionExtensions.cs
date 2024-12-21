@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Organizations.Infrastructure.Persistence;
 using Organizations.Infrastructure.Persistence.Repository;
+using Organizations.Persistence.Repository;
 
 namespace Organizations.Application;
 
@@ -19,6 +20,6 @@ public static class ServiceExtensions
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<IInvitationRepository, InvitationRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
