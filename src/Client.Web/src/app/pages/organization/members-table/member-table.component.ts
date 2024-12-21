@@ -26,7 +26,7 @@ export class MembersTableComponent {
   selectedMember?: Member;
 
   onGetData() {
-    this.memberService.getMembersByOrganizationId("1").subscribe();
+    this.memberService.getMembersByOrganizationId("0193eaf4-48a4-7723-9c4c-f3e6ec5cba4c").subscribe();
   }
 
   columnsConfig: ColumnDefinition<Member>[] = [

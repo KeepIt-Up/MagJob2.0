@@ -72,7 +72,7 @@ export class MemberService {
   }
 
   getMembersByOrganizationId(organizationId: string): Observable<any> {
-    const query = { organizationId };
+    const query = { Id: organizationId };
     return this.api.getMembers(query, this.membersPaginationOptions$()).pipe(
       tap((response: PaginatedResponse<Member>) => {
         this.memberStateService.setData(response);

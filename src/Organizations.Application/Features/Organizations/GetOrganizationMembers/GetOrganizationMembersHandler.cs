@@ -1,11 +1,13 @@
-﻿namespace Organizations.Application.Features.Organizations.GetOrganizationMembers;
+﻿using Organizations.Application.Features.Members.Get;
+
+namespace Organizations.Application.Features.Organizations.GetOrganizationMembers;
 
 public sealed class GetOrganizationMembersHandler(
     IOrganizationRepository organizationRepository
-    ) : IRequestHandler<GetOrganizationMembersRequest, GetOrganizationMembersResponse>
+    ) : IRequestHandler<GetOrganizationMembersRequest, PaginatedList<Member, GetMemberResponse>>
 {
-    public async Task<GetOrganizationMembersResponse> Handle(GetOrganizationMembersRequest request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<Member, GetMemberResponse>> Handle(GetOrganizationMembersRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await organizationRepository.GetMembers<GetMemberResponse>(request.Id, request.Options);
     }
 }

@@ -1,4 +1,4 @@
-
+using Organizations.Infrastructure.Common;
 
 namespace Organizations.Infrastructure.Persistence.Repository;
 
@@ -6,6 +6,11 @@ internal class OrganizationRepository : BaseRepository<Organization>, IOrganizat
 {
     public OrganizationRepository(ApplicationDbContext context) : base(context)
     {
+    }
+
+    public async Task<PaginatedList<Member, T>> GetMembers<T>(Guid organizationId, PaginationOptions paginationOptions)
+    {
+        return await PaginatedList<Member, T>.CreateAsync(Context.Set<Organization>().Where(o => o.ID == organizationId).SelectMany(o => o.Members), paginationOptions);
     }
 
     public async Task<Organization?> GetByName(string name, CancellationToken cancellationToken)

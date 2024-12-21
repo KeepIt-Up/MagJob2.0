@@ -15,9 +15,9 @@ public abstract record QueryWithPaginationOptions
     public PaginationOptions Options { get; init; }
 }
 
-public class PaginatedList<T>
+public class PaginatedList<TSource, TDestination>
 {
-    public IEnumerable<T> Items { get; }
+    public IEnumerable<TDestination> Items { get; }
     public int PageNumber { get; }
     public int TotalPages { get; }
     public int TotalCount { get; }
@@ -25,7 +25,7 @@ public class PaginatedList<T>
     public bool HasPreviousPage => PageNumber > 1;
     public bool HasNextPage => PageNumber < TotalPages;
 
-    public PaginatedList(IEnumerable<T> items, int count, int pageNumber, int pageSize)
+    public PaginatedList(IEnumerable<TDestination> items, int count, int pageNumber, int pageSize)
     {
         PageNumber = pageNumber;
         PageSize = pageSize;
@@ -34,13 +34,13 @@ public class PaginatedList<T>
         Items = items;
     }
 
-    public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, PaginationOptions options)
+    public static async Task<PaginatedList<TSource, TDestination>> CreateAsync(IQueryable<TSource> source, PaginationOptions options)
     {
         return await CreateAsync(source, options.PageNumber, options.PageSize, options.SortField, options.Ascending);
     }
 
-    public static async Task<PaginatedList<T>> CreateAsync(
-        IQueryable<T> source,
+    public static async Task<PaginatedList<TSource, TDestination>> CreateAsync(
+        IQueryable<TSource> source,
         int pageNumber,
         int pageSize,
         string sortField = null,
@@ -48,7 +48,7 @@ public class PaginatedList<T>
     {
         if (!string.IsNullOrEmpty(sortField))
         {
-            var parameter = Expression.Parameter(typeof(T), "x");
+            var parameter = Expression.Parameter(typeof(TSource), "x");
             var property = Expression.Property(parameter, sortField);
             var lambda = Expression.Lambda(property, parameter);
 
@@ -56,16 +56,17 @@ public class PaginatedList<T>
             var orderByMethod = typeof(Queryable)
                 .GetMethods()
                 .First(m => m.Name == methodName && m.GetParameters().Length == 2)
-                .MakeGenericMethod(typeof(T), property.Type);
+                .MakeGenericMethod(typeof(TSource), property.Type);
 
-            source = (IQueryable<T>)orderByMethod.Invoke(null, new object[] { source, lambda });
+            source = (IQueryable<TSource>)orderByMethod.Invoke(null, new object[] { source, lambda });
         }
 
         var count = source.Count();
         var items = source.Skip((pageNumber - 1) * pageSize)
                                .Take(pageSize)
-                               .ToList();
+                               .ToList()
+                               .Adapt<List<TDestination>>();
 
-        return new PaginatedList<T>(items, count, pageNumber, pageSize);
+        return new PaginatedList<TSource, TDestination>(items, count, pageNumber, pageSize);
     }
 }
