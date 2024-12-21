@@ -1,60 +1,54 @@
-using Microsoft.AspNetCore.Mvc;
-using Organizations.API.Common.Models;
-using Organizations.API.Models;
-using Organizations.API.Services;
+using Organizations.Application.Features.Members.Delete;
+using Organizations.Application.Features.Members.Get;
+using Organizations.Application.Features.Members.Update;
 
 namespace Organizations.API.Controllers;
 
-public record GetMembersByOrganizationIdQuery(int OrganizationId) : QueryWithPaginationOptions;
-public record GetMembersByNameQuery(string Name, int OrganizationId) : QueryWithPaginationOptions;
-
 [ApiController]
 [Route("api/[controller]")]
-public class MembersController : ControllerBase
+public class MembersController(IMediator _mediator) : ControllerBase
 {
-    private readonly IMemberService _memberService;
-
-    public MembersController(IMemberService memberService)
-    {
-        _memberService = memberService;
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> AddMember([FromBody] Member member)
-    {
-        return Ok(await _memberService.CreateAsync(member));
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateMember(int id, [FromBody] UpdateMemberRequest request)
-    {
-        return Ok(await _memberService.UpdateMemberAsync(id, request));
-    }
-
-    [HttpPut("{id}/archive")]
-    public async Task<IActionResult> ArchiveMember(int id)
-    {
-        await _memberService.ArchiveMemberAsync(id);
-        return NoContent();
-    }
-
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteMember(int id)
-    {
-        await _memberService.ArchiveMemberAsync(id);
-        return NoContent();
-    }
-
+    /// <summary>
+    /// Get a member by its id
+    /// </summary>
+    /// <param name="id"> The id of the member </param>
+    /// <returns> The member </returns>
+    /// <response code="200"> The member </response>
+    /// <response code="404"> The member was not found </response>
+    /// <response code="401"> The user is not authorized to access this member </response>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetMember(int id)
+    public async Task<IActionResult> GetMember(Guid id)
     {
-        return Ok(await _memberService.GetByIdAsync(id));
+        return Ok(await _mediator.Send(new GetMemberRequest(id)));
     }
 
-    //TODO: Move to organization controller
-    [HttpGet("search")]
-    public async Task<IActionResult> GetMembers([FromQuery] GetMembersByNameQuery query)
+    /// <summary>
+    /// Update a member by its id
+    /// </summary>
+    /// <param name="id"> The id of the member </param>
+    /// <param name="request"> The request object containing the member details </param>
+    /// <returns> The updated member </returns>
+    /// <response code="200"> The updated member </response>
+    /// <response code="404"> The member was not found </response>
+    /// <response code="401"> The user is not authorized to access this member </response>
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateMember(Guid id, UpdateMemberRequest request)
     {
-        return Ok(await _memberService.GetMembers(query.Name, query.OrganizationId, query.Options));
+        return Ok(await _mediator.Send(new UpdateMemberRequest(id, request.firstName, request.lastName, request.notes)));
+    }
+
+    /// <summary>
+    /// Delete a member by its id
+    /// </summary>
+    /// <param name="id"> The id of the member </param>
+    /// <returns> No content </returns>
+    /// <response code="204"> The member was deleted </response>
+    /// <response code="404"> The member was not found </response>
+    /// <response code="401"> The user is not authorized to access this member </response>
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteMember(Guid id)
+    {
+        await _mediator.Send(new DeleteMemberRequest(id));
+        return NoContent();
     }
 }

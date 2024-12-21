@@ -1,65 +1,84 @@
 using Microsoft.AspNetCore.Mvc;
-using Organizations.API.Common.Models;
+using Organizations.Application.Features.Roles.Create;
+using Organizations.Application.Features.Roles.Get;
+using Organizations.Application.Features.Roles.Update;
 
 namespace Organizations.API.Controllers;
 
-public record GetRolesByOrganizationIdQuery(int OrganizationId) : QueryWithPaginationOptions;
-
 [ApiController]
 [Route("api/[controller]")]
-public class RolesController : ControllerBase
+public class RolesController(IMediator _mediator) : ControllerBase
 {
-    private readonly IRoleService _roleService;
-    public RolesController(IRoleService roleService)
-    {
-        _roleService = roleService;
-    }
-
+    /// <summary>
+    /// Create a role
+    /// </summary>
+    /// <param name="request"> The request object containing the role name </param>
+    /// <returns> The created role </returns>
+    /// <response code="200"> The created role </response>
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateRolePayload payload, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Create(CreateRoleRequest request)
     {
-        return Ok(await _roleService.CreateRole(payload.Name, payload.OrganizationId, cancellationToken));
+        return Ok(await _mediator.Send(request));
     }
 
+    /// <summary>
+    /// Get a role by id
+    /// </summary>
+    /// <param name="request"> The request object containing the role id </param>
+    /// <returns> The role </returns>
+    /// <response code="200"> The role </response>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> GetById(GetRoleRequest request)
     {
-        return Ok(await _roleService.GetByIdAsync(id, cancellationToken));
+        return Ok(await _mediator.Send(request));
     }
 
+    /// <summary>
+    /// Update a role
+    /// </summary>
+    /// <param name="request"> The request object containing the role id and the role name </param>
+    /// <returns> The updated role </returns>
+    /// <response code="200"> The updated role </response>
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] UpdateRolePayload payload, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> Update(UpdateRoleRequest request)
     {
-        return Ok(await _roleService.UpdateRole(id, payload, cancellationToken));
+        return Ok(await _mediator.Send(request));
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
-    {
-        return Ok(await _roleService.DeleteAsync(id, cancellationToken));
-    }
+    /// <summary>
+    /// Delete a role
+    /// </summary>
+    /// <param name="request"> The request object containing the role id </param>
+    /// <returns> The deleted role </returns>
+    /// <response code="200"> The deleted role </response>
+    // [HttpDelete("{id}")]
+    // public async Task<IActionResult> Delete(DeleteRoleRequest request)
+    // {
+    //     await _mediator.Send(request);
+    //     return NoContent();
+    // }
 
-    [HttpPost("{id}/permissions")]
-    public async Task<IActionResult> AddPermissionsToRole(int id, List<int> permissionIds, CancellationToken cancellationToken = default)
-    {
-        return Ok(await _roleService.AddPermissionsToRole(id, permissionIds, cancellationToken));
-    }
+    // [HttpPost("{id}/permissions")]
+    // public async Task<IActionResult> AddPermissionsToRole(AddPermissionsToRoleRequest request)
+    // {
+    //     return Ok(await _mediator.Send(request));
+    // }
 
-    [HttpDelete("{id}/permissions")]
-    public async Task<IActionResult> RemovePermissionsFromRole(int id, List<int> permissionIds, CancellationToken cancellationToken = default)
-    {
-        return Ok(await _roleService.RemovePermissionsFromRole(id, permissionIds, cancellationToken));
-    }
+    // [HttpDelete("{id}/permissions")]
+    // public async Task<IActionResult> RemovePermissionsFromRole(RemovePermissionsFromRoleRequest request)
+    // {
+    //     return Ok(await _mediator.Send(request));
+    // }
 
-    [HttpPost("{id}/members")]
-    public async Task<IActionResult> AddMembersToRole(int id, List<int> memberIds, CancellationToken cancellationToken = default)
-    {
-        return Ok(await _roleService.AddMembersToRole(id, memberIds, cancellationToken));
-    }
+    // [HttpPost("{id}/members")]
+    // public async Task<IActionResult> AddMembersToRole(AddMembersToRoleRequest request)
+    // {
+    //     return Ok(await _mediator.Send(request));
+    // }
 
-    [HttpDelete("{id}/members")]
-    public async Task<IActionResult> RemoveMembersFromRole(int id, List<int> memberIds, CancellationToken cancellationToken = default)
-    {
-        return Ok(await _roleService.RemoveMembersFromRole(id, memberIds, cancellationToken));
-    }
+    // [HttpDelete("{id}/members")]
+    // public async Task<IActionResult> RemoveMembersFromRole(RemoveMembersFromRoleRequest request)
+    // {
+    //     return Ok(await _mediator.Send(request));
+    // }
 }

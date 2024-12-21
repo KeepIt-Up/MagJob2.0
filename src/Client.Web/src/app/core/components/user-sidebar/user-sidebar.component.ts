@@ -4,9 +4,9 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { UserService } from '../../../features/services/user.service';
 
 @Component({
-    selector: 'app-user-sidebar',
-    imports: [RouterLink, RouterLinkActive],
-    templateUrl: './user-sidebar.component.html'
+  selector: 'app-user-sidebar',
+  imports: [RouterLink, RouterLinkActive],
+  templateUrl: './user-sidebar.component.html'
 })
 export class UserSidebarComponent {
   @Output() sidebarExpandedChange = new EventEmitter<boolean>();
@@ -20,7 +20,7 @@ export class UserSidebarComponent {
   }
 
   state$ = this.userService.userState$;
-  userName = computed(() => `${this.state$().data?.firstName} ${this.state$().data?.lastName}`);
+  userName = computed(() => `${this.state$().data?.firstname} ${this.state$().data?.lastname}`);
 
   logOut() {
     this.authService.logOut();

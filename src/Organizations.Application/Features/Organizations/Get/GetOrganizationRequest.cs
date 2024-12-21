@@ -1,0 +1,1 @@
+public record GetOrganizationRequest(Guid Id) : IRequest<GetOrganizationResponse>;

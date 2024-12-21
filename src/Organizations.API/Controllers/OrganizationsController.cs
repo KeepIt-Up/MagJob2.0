@@ -1,102 +1,125 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Organizations.API.Common.Models;
-using Organizations.API.Models;
-using Organizations.API.Services;
+﻿using Organizations.Application.Features.Organizations.Create;
+using Organizations.Application.Features.Organizations.CreateOrganizationInvitation;
+using Organizations.Application.Features.Organizations.Delete;
+using Organizations.Application.Features.Organizations.GetOrganizationInvitations;
+using Organizations.Application.Features.Organizations.GetOrganizationMembers;
+using Organizations.Application.Features.Organizations.GetOrganizationRoles;
+using Organizations.Application.Features.Organizations.Update;
 
 namespace Organizations.API.Controllers;
-
-public record GetOrganizationsByUserIdQuery(string UserId, PaginationOptions Options);
-
-public record CreateOrganizationRequest(string Name, string? Description);
 
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class OrganizationsController : ControllerBase
+public class OrganizationsController(IMediator _mediator) : ControllerBase
 {
-    private readonly IOrganizationService _organizationService;
-    private readonly ILogger<OrganizationsController> _logger;
-
-    public OrganizationsController(IOrganizationService organizationService, ILogger<OrganizationsController> logger)
-    {
-        _organizationService = organizationService ?? throw new ArgumentNullException(nameof(organizationService));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
-
+    /// <summary>
+    /// Create a new organization
+    /// </summary>
+    /// <param name="request"> The request object containing the organization details </param>
+    /// <returns> The created organization </returns>
     [HttpPost]
-    public async Task<IActionResult> CreateOrganization([FromBody] CreateOrganizationRequest request)
+    public async Task<IActionResult> CreateOrganization(CreateOrganizationRequest request)
     {
-        var createdOrganization = await _organizationService.CreateOrganizationAsync(request.Name, request.Description);
-        return CreatedAtAction(nameof(GetOrganizationById), new { id = createdOrganization.Id }, createdOrganization);
+        return Ok(await _mediator.Send(request));
     }
 
+    /// <summary>
+    /// Get an organization by its id
+    /// </summary>
+    /// <param name="request"> The request object containing the organization id </param>
+    /// <returns> The organization </returns>
+    /// <response code="200"> The organization </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetOrganizationById(int id)
+    public async Task<IActionResult> GetOrganizationById(GetOrganizationRequest request)
     {
-        var organization = await _organizationService.GetByIdAsync(id);
-        if (organization == null)
-        {
-            return NotFound();
-        }
-        return Ok(organization);
+        return Ok(await _mediator.Send(request));
     }
 
+    /// <summary>
+    /// Update an organization by its id
+    /// </summary>
+    /// <param name="request"> The request object containing the organization details </param>
+    /// <returns> The updated organization </returns>
+    /// <response code="200"> The updated organization </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateOrganization(int id, [FromBody] UpdateOrganizationRequest organization)
+    public async Task<IActionResult> UpdateOrganization(UpdateOrganizationRequest request)
     {
-
-        var updatedOrganization = await _organizationService.UpdateOrganizationAsync(id, organization);
-        if (updatedOrganization == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(updatedOrganization);
+        return Ok(await _mediator.Send(request));
     }
 
+    /// <summary>
+    /// Delete an organization by its id
+    /// </summary>
+    /// <param name="id"> The id of the organization to delete </param>
+    /// <returns> No content </returns>
+    /// <response code="204"> The organization was deleted </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteOrganization(int id)
+    public async Task<IActionResult> DeleteOrganization(Guid id)
     {
-        var success = await _organizationService.DeleteAsync(id);
-        if (!success)
-        {
-            return NotFound();
-        }
-
+        await _mediator.Send(new DeleteOrganizationRequest(id));
         return NoContent();
     }
 
-    [HttpGet("invitations")]
-    public async Task<IActionResult> GetInvitationsByOrganizationId([FromQuery] GetInvitationsByOrganizationIdQuery query)
+    /// <summary>
+    /// Create an invitation for an organization
+    /// </summary>
+    /// <param name="request"> The request object containing the organization id and the user id </param>
+    /// <returns> The created invitation </returns>
+    /// <response code="200"> The created invitation </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
+    [HttpPost("{id}/invitations")]
+    public async Task<IActionResult> CreateInvitation(Guid organizationId, Guid userId)
     {
-        var invitations = await _organizationService.GetInvitationsAsync(query.OrganizationId, query.Options);
-        return Ok(invitations);
+        return Ok(await _mediator.Send(new CreateOrganizationInvitationRequest(userId, organizationId)));
     }
 
-    [HttpGet("users")]
-    public async Task<IActionResult> GetOrganizationsByUserIdPaginated([FromQuery] GetOrganizationsByUserIdQuery query)
+    /// <summary>
+    /// Get invitations by organization id
+    /// </summary>
+    /// <param name="request"> The request object containing the organization id </param>
+    /// <returns> The invitations </returns>
+    /// <response code="200"> The invitations </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
+    [HttpGet("{id}/invitations")]
+    public async Task<IActionResult> GetInvitationsByOrganizationId(GetOrganizationInvitationsRequest request)
     {
-        var organizations = await _organizationService.GetByUserIdAsync(query.UserId, query.Options);
-        return Ok(organizations);
+        return Ok(await _mediator.Send(request));
     }
 
-    [HttpPost("users/{userId}/invite")]
-    public async Task<IActionResult> InviteUserToOrganization(int organizationId, string userId)
+    /// <summary>
+    /// Get members by organization id
+    /// </summary>
+    /// <param name="request"> The request object containing the organization id </param>
+    /// <returns> The members </returns>
+    /// <response code="200"> The members </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
+    [HttpGet("{id}/members")]
+    public async Task<IActionResult> GetMembersByOrganizationId(GetOrganizationMembersRequest request)
     {
-        var invitation = await _organizationService.InviteUserAsync(organizationId, userId);
-        return CreatedAtAction(nameof(InviteUserToOrganization), new { id = invitation.OrganizationId }, invitation);
+        return Ok(await _mediator.Send(request));
     }
 
-    [HttpGet("members")]
-    public async Task<IActionResult> GetMembersByOrganizationId([FromQuery] GetMembersByOrganizationIdQuery query)
+    /// <summary>
+    /// Get roles by organization id
+    /// </summary>
+    /// <param name="request"> The request object containing the organization id </param>
+    /// <returns> The roles </returns>
+    /// <response code="200"> The roles </response>
+    /// <response code="404"> The organization was not found </response>
+    /// <response code="401"> The user is not authorized to access this organization </response>
+    [HttpGet("{id}/roles")]
+    public async Task<IActionResult> GetRolesByOrganizationIdPagination(GetOrganizationRolesRequest request)
     {
-        return Ok(await _organizationService.GetMembersAsync(query.OrganizationId, query.Options));
-    }
-
-    [HttpGet("roles")]
-    public async Task<IActionResult> GetRolesByOrganizationIdPagination([FromQuery] GetRolesByOrganizationIdQuery query, CancellationToken cancellationToken = default)
-    {
-        return Ok(await _organizationService.GetRolesAsync(query.OrganizationId, query.Options));
+        return Ok(await _mediator.Send(request));
     }
 }
