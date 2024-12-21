@@ -1,11 +1,26 @@
-﻿namespace Organizations.Application.Features.Members.Update;
+﻿using Organizations.Application.Features.Members.Get;
+
+namespace Organizations.Application.Features.Members.Update;
 
 public sealed class UpdateMemberHandler(
-    IMemberRepository memberRepository
-    ) : IRequestHandler<UpdateMemberRequest, UpdateMemberResponse>
+    IMemberRepository memberRepository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper
+    ) : IRequestHandler<UpdateMemberRequest, GetMemberResponse>
 {
-    public async Task<UpdateMemberResponse> Handle(UpdateMemberRequest request, CancellationToken cancellationToken)
+    public async Task<GetMemberResponse> Handle(UpdateMemberRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var member = await memberRepository.Get(request.ID, cancellationToken);
+        if (member is null)
+        {
+            throw new NotFoundException("Member with ID {request.ID} not found");
+        }
+
+        member.Update(request.FirstName, request.LastName, request.Notes);
+
+        memberRepository.Update(member);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return mapper.Map<GetMemberResponse>(member);
     }
 }

@@ -34,7 +34,7 @@ public class MembersController(IMediator _mediator) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMember(Guid id, UpdateMemberRequest request)
     {
-        return Ok(await _mediator.Send(new UpdateMemberRequest(id, request.firstName, request.lastName, request.notes)));
+        return Ok(await _mediator.Send(new UpdateMemberRequest(id, request.FirstName, request.LastName, request.Notes)));
     }
 
     /// <summary>

@@ -26,7 +26,7 @@ public sealed class UpdateOrganizationHandler(
 
         organization.Update(request.Name, request.Description, request.ProfileImage, request.BannerImage);
         organizationRepository.Update(organization);
-        await unitOfWork.Save(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return mapper.Map<GetOrganizationResponse>(organization);
     }

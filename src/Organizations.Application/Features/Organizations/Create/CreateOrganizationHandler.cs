@@ -21,7 +21,7 @@ public sealed class CreateOrganizationHandler(
         //create organization
         organization = Organization.Create(request.name, userAccessor.GetUserId(), request.description);
         organizationRepository.Create(organization);
-        await unitOfWork.Save(cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return mapper.Map<CreateOrganizationResponse>(organization);
     }

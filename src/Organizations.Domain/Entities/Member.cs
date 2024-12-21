@@ -26,13 +26,13 @@ public class Member : BaseEntity
         };
     }
 
-    // public void Update(UpdateMemberRequest request)
-    // {
-    //     if (!string.IsNullOrWhiteSpace(request.FirstName))
-    //         FirstName = request.FirstName;
-    //     if (!string.IsNullOrWhiteSpace(request.LastName))
-    //         LastName = request.LastName;
-    //     if (!string.IsNullOrWhiteSpace(request.Notes))
-    //         Notes = request.Notes;
-    // }
+    public void Update(string? firstName, string? lastName, string? notes)
+    {
+        if (!string.IsNullOrWhiteSpace(firstName))
+            FirstName = firstName;
+        if (!string.IsNullOrWhiteSpace(lastName))
+            LastName = lastName;
+        if (!string.IsNullOrWhiteSpace(notes))
+            Notes = notes;
+    }
 }
