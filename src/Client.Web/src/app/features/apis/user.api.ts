@@ -16,7 +16,7 @@ export class UserApiService {
 
     getUserOrganizations(query: Record<any, any>, paginationOptions: PaginationOptions<Organization>): Observable<PaginatedResponse<Organization>> {
         const options = serializePaginationOptions(paginationOptions);
-        return this.http.get<PaginatedResponse<Organization>>(`api/organizations/users`, { params: { ...query, ...options } });
+        return this.http.get<PaginatedResponse<Organization>>(`${this.apiUrl}/organizations`, { params: { ...query, ...options } });
     }
 
     getUserInvitations(query: Record<any, any>, paginationOptions: PaginationOptions<Invitation>): Observable<PaginatedResponse<Invitation>> {

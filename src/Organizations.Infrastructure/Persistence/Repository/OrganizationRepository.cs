@@ -18,6 +18,11 @@ internal class OrganizationRepository : BaseRepository<Organization>, IOrganizat
         return await PaginatedList<Invitation, T>.CreateAsync(Context.Set<Organization>().Where(o => o.ID == organizationId).SelectMany(o => o.Invitations), paginationOptions);
     }
 
+    public async Task<PaginatedList<Organization, T>> GetOrganizationsByUserIdAsync<T>(Guid userId, PaginationOptions paginationOptions)
+    {
+        return await PaginatedList<Organization, T>.CreateAsync(Context.Set<Organization>().Where(o => o.Members.Any(m => m.UserId == userId)), paginationOptions);
+    }
+
     public async Task<Organization?> GetByName(string name, CancellationToken cancellationToken)
     {
         return await Context.Set<Organization>().FirstOrDefaultAsync(o => o.Name == name, cancellationToken);

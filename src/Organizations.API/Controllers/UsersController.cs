@@ -30,7 +30,7 @@ public class UsersController(IMediator _mediator) : ControllerBase
     /// <response code="401"> The user is not authenticated </response>
     /// <response code="404"> The user was not found </response>
     [HttpGet("invitations")]
-    public async Task<IActionResult> GetInvitationsByUserId(GetUserInvitationsRequest request)
+    public async Task<IActionResult> GetInvitationsByUserId([FromQuery] GetUserInvitationsRequest request)
     {
         return Ok(await _mediator.Send(request));
     }
@@ -43,7 +43,7 @@ public class UsersController(IMediator _mediator) : ControllerBase
     /// <response code="401"> The user is not authenticated </response>
     /// <response code="404"> The user was not found </response>
     [HttpGet("organizations")]
-    public async Task<IActionResult> GetOrganizationsByUserId(GetUserOrganizationsRequest request)
+    public async Task<IActionResult> GetOrganizationsByUserId([FromQuery] GetUserOrganizationsRequest request)
     {
         return Ok(await _mediator.Send(request));
     }
