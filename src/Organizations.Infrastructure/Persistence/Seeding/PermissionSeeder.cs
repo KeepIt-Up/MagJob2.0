@@ -4,13 +4,25 @@ public static class PermissionSeeder
 {
     public static void Seed(ApplicationDbContext context)
     {
-        //var permissions = new List<Permission>
-        //{
-        //    new Permission { Id = 1, Name = "Create Organization", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-        //    new Permission { Id = 2, Name = "Edit Organization", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow },
-        //    new Permission { Id = 3, Name = "Delete Organization", CreatedAt = DateTime.UtcNow, UpdatedAt = DateTime.UtcNow }
-        //};
+        if (context.Permissions.Any())
+            return;
 
-        //context.Permissions.AddRange(permissions);
+        var permissions = new List<Permission>
+        {
+           new Permission { Name = "Create Organization" },
+           new Permission { Name = "Edit Organization" },
+           new Permission { Name = "Delete Organization" },
+           new Permission { Name = "Create Role" },
+           new Permission { Name = "Edit Role" },
+           new Permission { Name = "Delete Role" },
+           new Permission { Name = "Create Member" },
+           new Permission { Name = "Edit Member" },
+           new Permission { Name = "Delete Member" },
+           new Permission { Name = "Create Invitation" },
+           new Permission { Name = "Edit Invitation" },
+           new Permission { Name = "Delete Invitation" }
+        };
+
+        context.Permissions.AddRange(permissions);
     }
 }

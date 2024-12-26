@@ -117,8 +117,8 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     /// <response code="200"> The roles </response>
     /// <response code="404"> The organization was not found </response>
     /// <response code="401"> The user is not authorized to access this organization </response>
-    [HttpGet("{id}/roles")]
-    public async Task<IActionResult> GetRolesByOrganizationIdPagination(GetOrganizationRolesRequest request)
+    [HttpGet("roles")]
+    public async Task<IActionResult> GetRolesByOrganizationIdPagination([FromQuery] GetOrganizationRolesRequest request)
     {
         return Ok(await _mediator.Send(request));
     }

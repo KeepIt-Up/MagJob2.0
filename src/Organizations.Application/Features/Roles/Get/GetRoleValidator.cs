@@ -4,8 +4,8 @@ public sealed class GetRoleValidator : AbstractValidator<GetRoleRequest>
 {
     public GetRoleValidator()
     {
-        RuleFor(x => x.Id)
+        RuleFor(x => x.ID)
             .NotEmpty()
-            .WithMessage("Id is required");
+            .WithMessage("ID is required");
     }
 }

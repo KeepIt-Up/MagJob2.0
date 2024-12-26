@@ -10,4 +10,5 @@ public interface IOrganizationRepository : IBaseRepository<Organization>
     Task<PaginatedList<Member, T>> GetMembers<T>(Guid organizationId, PaginationOptions paginationOptions);
     Task<PaginatedList<Invitation, T>> GetInvitations<T>(Guid organizationId, PaginationOptions paginationOptions);
     Task<PaginatedList<Organization, T>> GetOrganizationsByUserIdAsync<T>(Guid userId, PaginationOptions paginationOptions);
+    Task<PaginatedList<Role, T>> GetRoles<T>(Guid organizationId, PaginationOptions paginationOptions);
 }

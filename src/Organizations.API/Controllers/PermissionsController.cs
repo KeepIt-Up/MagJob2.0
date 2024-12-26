@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+using Organizations.Application.Features.Permissions.GetPermissions;
 
 namespace Organizations.API.Controllers;
 
@@ -6,9 +6,16 @@ namespace Organizations.API.Controllers;
 [Route("api/[controller]")]
 public class PermissionsController(IMediator _mediator) : ControllerBase
 {
-    // [HttpGet]
-    // public async Task<IActionResult> GetPermissions(GetPermissionsRequest request)
-    // {
-    //     return Ok(await _mediator.Send(request));
-    // }
+    /// <summary>
+    /// Get all permissions
+    /// </summary>
+    /// <returns> The permissions </returns>
+    /// <response code="200"> The permissions </response>
+    /// <response code="401"> The user is not authorized to access this resource </response>
+    /// <response code="403"> The user is not authorized to access this resource </response>
+    [HttpGet]
+    public async Task<IActionResult> GetPermissions()
+    {
+        return Ok(await _mediator.Send(new GetPermissionsRequest()));
+    }
 }

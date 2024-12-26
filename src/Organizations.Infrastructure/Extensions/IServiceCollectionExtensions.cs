@@ -20,6 +20,7 @@ public static class ServiceExtensions
         services.AddScoped<IMemberRepository, MemberRepository>();
         services.AddScoped<IInvitationRepository, InvitationRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

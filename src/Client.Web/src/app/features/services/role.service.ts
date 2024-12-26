@@ -35,7 +35,7 @@ export class RoleService {
   }
 
   getRoles(organizationId: string) {
-    const query = { organizationId };
+    const query = { id: organizationId };
     return this.apiService.getAllRoles(query, this.paginationOptions$()).pipe(
       tap((response: PaginatedResponse<Role>) => {
         response.items.forEach((role) => this.roleStateService.add(role));
@@ -48,8 +48,8 @@ export class RoleService {
     );
   }
 
-  createRole(organizationId: string, roleName: string) {
-    return this.apiService.create({ organizationId: organizationId, roleName: roleName }).pipe(
+  createRole(organizationId: string, name: string) {
+    return this.apiService.create({ organizationId: organizationId, name: name }).pipe(
       tap((createdRole) => {
         this.roleStateService.setData([...this.roles$().data ?? [], createdRole]);
       }),

@@ -4,7 +4,7 @@ public static class DatabaseSeeder
 {
     public static void SeedRequiredData(ApplicationDbContext context)
     {
-
+        PermissionSeeder.Seed(context);
         context.SaveChanges();
     }
 
