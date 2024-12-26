@@ -1,10 +1,9 @@
 namespace Organizations.Infrastructure.Persistence.Repository;
 
-public class RoleRepository : BaseRepository<Role>, IRoleRepository
+internal class RoleRepository(
+    ApplicationDbContext context
+    ) : BaseRepository<Role>(context), IRoleRepository
 {
-    public RoleRepository(ApplicationDbContext context) : base(context)
-    {
-    }
 
     public async Task<List<Role>> GetRolesByOrganizationId(Guid organizationId, CancellationToken cancellationToken = default)
     {

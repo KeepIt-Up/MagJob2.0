@@ -1,12 +1,9 @@
-using Organizations.Infrastructure.Common;
-
 namespace Organizations.Infrastructure.Persistence.Repository;
 
-internal class OrganizationRepository : BaseRepository<Organization>, IOrganizationRepository
+internal class OrganizationRepository(
+    ApplicationDbContext context
+    ) : BaseRepository<Organization>(context), IOrganizationRepository
 {
-    public OrganizationRepository(ApplicationDbContext context) : base(context)
-    {
-    }
 
     public async Task<PaginatedList<Role, T>> GetRoles<T>(Guid organizationId, PaginationOptions paginationOptions)
     {

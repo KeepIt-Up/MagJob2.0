@@ -1,10 +1,7 @@
-
-
 namespace Organizations.Infrastructure.Persistence.Repository;
 
-public class PermissionRepository : BaseRepository<Permission>, IPermissionRepository
+internal class PermissionRepository(
+    ApplicationDbContext context
+    ) : BaseRepository<Permission>(context), IPermissionRepository
 {
-    public PermissionRepository(ApplicationDbContext context) : base(context)
-    {
-    }
 }

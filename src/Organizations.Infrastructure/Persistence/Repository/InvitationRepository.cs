@@ -1,18 +1,11 @@
-using Organizations.Domain.Entities;
-
 namespace Organizations.Infrastructure.Persistence.Repository;
 
-public class InvitationRepository : BaseRepository<Invitation>, IInvitationRepository
+internal class InvitationRepository(
+    ApplicationDbContext context
+    ) : BaseRepository<Invitation>(context), IInvitationRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public InvitationRepository(ApplicationDbContext context) : base(context)
-    {
-        _context = context;
-    }
-
     public async Task<Invitation?> GetWithOrganizationByIdAsync(Guid id)
     {
-        return await _context.Invitations.Include(i => i.Organization).FirstOrDefaultAsync(i => i.ID == id);
+        return await Context.Invitations.Include(i => i.Organization).FirstOrDefaultAsync(i => i.ID == id);
     }
 }
