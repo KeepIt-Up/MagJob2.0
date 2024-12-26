@@ -7,7 +7,7 @@ namespace Organizations.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController(IMediator _mediator) : ControllerBase
+public class UsersController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Get the current identity
@@ -19,7 +19,7 @@ public class UsersController(IMediator _mediator) : ControllerBase
     [HttpGet("me")]
     public async Task<IActionResult> GetIdentity()
     {
-        return Ok(await _mediator.Send(new GetUserRequest()));
+        return Ok(await mediator.Send(new GetUserRequest()));
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public class UsersController(IMediator _mediator) : ControllerBase
     [HttpGet("invitations")]
     public async Task<IActionResult> GetInvitationsByUserId([FromQuery] GetUserInvitationsRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
@@ -45,6 +45,6 @@ public class UsersController(IMediator _mediator) : ControllerBase
     [HttpGet("organizations")]
     public async Task<IActionResult> GetOrganizationsByUserId([FromQuery] GetUserOrganizationsRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 }

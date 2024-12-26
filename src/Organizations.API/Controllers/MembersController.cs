@@ -6,7 +6,7 @@ namespace Organizations.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MembersController(IMediator _mediator) : ControllerBase
+public class MembersController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Get a member by its id
@@ -19,7 +19,7 @@ public class MembersController(IMediator _mediator) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetMember(Guid id)
     {
-        return Ok(await _mediator.Send(new GetMemberRequest(id)));
+        return Ok(await mediator.Send(new GetMemberRequest(id)));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class MembersController(IMediator _mediator) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateMember(Guid id, UpdateMemberRequest request)
     {
-        return Ok(await _mediator.Send(new UpdateMemberRequest(id, request.FirstName, request.LastName, request.Notes)));
+        return Ok(await mediator.Send(new UpdateMemberRequest(id, request.FirstName, request.LastName, request.Notes)));
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class MembersController(IMediator _mediator) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMember(Guid id)
     {
-        await _mediator.Send(new DeleteMemberRequest(id));
+        await mediator.Send(new DeleteMemberRequest(id));
         return NoContent();
     }
 }

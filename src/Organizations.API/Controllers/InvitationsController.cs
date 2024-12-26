@@ -6,7 +6,7 @@ namespace Organizations.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class InvitationsController(IMediator _mediator) : ControllerBase
+public class InvitationsController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Get an invitation by its id
@@ -19,7 +19,7 @@ public class InvitationsController(IMediator _mediator) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetInvitationById(Guid id)
     {
-        return Ok(await _mediator.Send(new GetInvitationRequest(id)));
+        return Ok(await mediator.Send(new GetInvitationRequest(id)));
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class InvitationsController(IMediator _mediator) : ControllerBase
     [HttpPost("{id}/accept")]
     public async Task<IActionResult> AcceptInvitation(Guid id)
     {
-        return Ok(await _mediator.Send(new UpdateInvitationRequest(id, InvitationStatus.Accepted)));
+        return Ok(await mediator.Send(new UpdateInvitationRequest(id, InvitationStatus.Accepted)));
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class InvitationsController(IMediator _mediator) : ControllerBase
     [HttpPost("{id}/reject")]
     public async Task<IActionResult> RejectInvitation(Guid id)
     {
-        return Ok(await _mediator.Send(new UpdateInvitationRequest(id, InvitationStatus.Rejected)));
+        return Ok(await mediator.Send(new UpdateInvitationRequest(id, InvitationStatus.Rejected)));
     }
 
     /// <summary>
@@ -61,6 +61,6 @@ public class InvitationsController(IMediator _mediator) : ControllerBase
     [HttpPost("{id}/cancel")]
     public async Task<IActionResult> CancelInvitation(Guid id)
     {
-        return Ok(await _mediator.Send(new UpdateInvitationRequest(id, InvitationStatus.Cancelled)));
+        return Ok(await mediator.Send(new UpdateInvitationRequest(id, InvitationStatus.Cancelled)));
     }
 }

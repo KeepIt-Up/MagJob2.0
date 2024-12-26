@@ -11,7 +11,7 @@ namespace Organizations.API.Controllers;
 [Authorize]
 [ApiController]
 [Route("api/[controller]")]
-public class OrganizationsController(IMediator _mediator) : ControllerBase
+public class OrganizationsController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Create a new organization
@@ -21,7 +21,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateOrganization(CreateOrganizationRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrganizationById(Guid id)
     {
-        return Ok(await _mediator.Send(new GetOrganizationRequest(id)));
+        return Ok(await mediator.Send(new GetOrganizationRequest(id)));
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateOrganization(Guid id, UpdateOrganizationRequest request)
     {
-        return Ok(await _mediator.Send(new UpdateOrganizationRequest(id, request.Name, request.Description, request.ProfileImage, request.BannerImage)));
+        return Ok(await mediator.Send(new UpdateOrganizationRequest(id, request.Name, request.Description, request.ProfileImage, request.BannerImage)));
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrganization(Guid id)
     {
-        await _mediator.Send(new DeleteOrganizationRequest(id));
+        await mediator.Send(new DeleteOrganizationRequest(id));
         return NoContent();
     }
 
@@ -78,7 +78,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpPost("{id}/invitations")]
     public async Task<IActionResult> CreateInvitation(Guid organizationId, Guid userId)
     {
-        return Ok(await _mediator.Send(new CreateOrganizationInvitationRequest(userId, organizationId)));
+        return Ok(await mediator.Send(new CreateOrganizationInvitationRequest(userId, organizationId)));
     }
 
     /// <summary>
@@ -92,7 +92,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpGet("invitations")]
     public async Task<IActionResult> GetInvitationsByOrganizationId([FromQuery] GetOrganizationInvitationsRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpGet("members")]
     public async Task<IActionResult> GetMembersByOrganizationId([FromQuery] GetOrganizationMembersRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
@@ -120,6 +120,6 @@ public class OrganizationsController(IMediator _mediator) : ControllerBase
     [HttpGet("roles")]
     public async Task<IActionResult> GetRolesByOrganizationIdPagination([FromQuery] GetOrganizationRolesRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 }

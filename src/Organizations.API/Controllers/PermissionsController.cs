@@ -4,7 +4,7 @@ namespace Organizations.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PermissionsController(IMediator _mediator) : ControllerBase
+public class PermissionsController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Get all permissions
@@ -16,6 +16,6 @@ public class PermissionsController(IMediator _mediator) : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetPermissions()
     {
-        return Ok(await _mediator.Send(new GetPermissionsRequest()));
+        return Ok(await mediator.Send(new GetPermissionsRequest()));
     }
 }

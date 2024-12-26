@@ -7,7 +7,7 @@ namespace Organizations.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RolesController(IMediator _mediator) : ControllerBase
+public class RolesController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Create a role
@@ -18,7 +18,7 @@ public class RolesController(IMediator _mediator) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateRoleRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public class RolesController(IMediator _mediator) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(GetRoleRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class RolesController(IMediator _mediator) : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(UpdateRoleRequest request)
     {
-        return Ok(await _mediator.Send(request));
+        return Ok(await mediator.Send(request));
     }
 
     /// <summary>
