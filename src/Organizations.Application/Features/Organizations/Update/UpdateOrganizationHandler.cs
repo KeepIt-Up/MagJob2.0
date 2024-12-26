@@ -1,4 +1,6 @@
-﻿namespace Organizations.Application.Features.Organizations.Update;
+﻿using Organizations.Application.Features.Organizations.Get;
+
+namespace Organizations.Application.Features.Organizations.Update;
 
 public sealed class UpdateOrganizationHandler(
     IOrganizationRepository organizationRepository,
@@ -14,7 +16,7 @@ public sealed class UpdateOrganizationHandler(
             throw new NotFoundException("Organization not found");
         }
 
-        if (request.Name != organization.Name)
+        if (request.Name != organization.Name && request.Name != null)
         {
             var organizationWithSameName = await organizationRepository.GetByName(request.Name, cancellationToken);
             if (organizationWithSameName != null)

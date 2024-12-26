@@ -1,16 +1,12 @@
 ﻿using Organizations.Domain.Common;
-using Organizations.Application.Repository;
 
 namespace Organizations.Infrastructure.Persistence.Common;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
+public class BaseRepository<T>(
+    ApplicationDbContext context
+    ) : IBaseRepository<T> where T : BaseEntity
 {
-    protected readonly ApplicationDbContext Context;
-
-    public BaseRepository(ApplicationDbContext context)
-    {
-        Context = context;
-    }
+    protected readonly ApplicationDbContext Context = context;
 
     public void Create(T entity)
     {
@@ -28,7 +24,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
         Context.Update(entity);
     }
 
-    public Task<T> Get(Guid id, CancellationToken cancellationToken)
+    public Task<T?> Get(Guid id, CancellationToken cancellationToken)
     {
         return Context.Set<T>().FirstOrDefaultAsync(x => x.ID == id, cancellationToken);
     }

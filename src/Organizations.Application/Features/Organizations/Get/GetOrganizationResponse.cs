@@ -1,9 +1,10 @@
-public class GetOrganizationResponse
-{
-    public Guid ID { get; set; }
-    public string Name { get; set; }
-    public string? Description { get; set; }
-    public Guid OwnerId { get; set; }
-    public byte[]? ProfileImage { get; set; }
-    public byte[]? BannerImage { get; set; }
-}
+namespace Organizations.Application.Features.Organizations.Get;
+
+public sealed record GetOrganizationResponse(
+    Guid ID,
+    string Name,
+    string? Description,
+    Guid OwnerId,
+    byte[]? ProfileImage,
+    byte[]? BannerImage
+);

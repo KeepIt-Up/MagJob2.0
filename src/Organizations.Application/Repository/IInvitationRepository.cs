@@ -1,7 +1,6 @@
-namespace Organizations.Application.Repository
+namespace Organizations.Application.Repository;
+
+public interface IInvitationRepository
 {
-    public interface IInvitationRepository
-    {
-        Task<Invitation?> GetWithOrganizationByIdAsync(Guid id);
-    }
+    Task<Invitation?> GetWithOrganizationByIdAsync(Guid id);
 }

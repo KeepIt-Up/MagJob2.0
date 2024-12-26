@@ -37,14 +37,17 @@ public class Organization : BaseEntity
         return organization;
     }
 
-    public void Update(string name, string? description, byte[]? profileImage, byte[]? bannerImage)
+    public void Update(string? name, string? description, byte[]? profileImage, byte[]? bannerImage)
     {
         if (!string.IsNullOrWhiteSpace(name))
         {
             Name = name;
         }
 
-        Description = description;
+        if (description != null && description != Description)
+        {
+            Description = description;
+        }
 
         if (profileImage != null)
         {

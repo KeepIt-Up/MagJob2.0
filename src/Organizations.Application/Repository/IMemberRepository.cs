@@ -1,7 +1,6 @@
-namespace Organizations.Application.Repository
+namespace Organizations.Application.Repository;
+
+public interface IMemberRepository : IBaseRepository<Member>
 {
-    public interface IMemberRepository : IBaseRepository<Member>
-    {
-        // Task ArchiveMemberAsync(Guid id);
-    }
+    // Task ArchiveMemberAsync(Guid id);
 }

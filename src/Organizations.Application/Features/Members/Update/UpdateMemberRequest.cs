@@ -1,9 +1,8 @@
-using MediatR;
 using Organizations.Application.Features.Members.Get;
 
 namespace Organizations.Application.Features.Members.Update;
 
-public record UpdateMemberRequest(
+public sealed record UpdateMemberRequest(
     Guid ID,
     string? FirstName,
     string? LastName,

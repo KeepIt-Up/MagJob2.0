@@ -1,3 +1,3 @@
 namespace Organizations.Application.Features.Invitations.Get;
 
-public sealed class GetInvitationRequest(Guid invitationId) : IRequest<GetInvitationResponse>;
+public sealed record GetInvitationRequest(Guid Id) : IRequest<GetInvitationResponse>;

@@ -1,8 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
-using Organizations.Application.Common.Exceptions;
-
-namespace Organizations.Application.Common.Behaviors;
+﻿namespace Organizations.Application.Common.Behaviors;
 
 public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 where TRequest : IRequest<TResponse>

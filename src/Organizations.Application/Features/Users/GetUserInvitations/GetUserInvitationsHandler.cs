@@ -1,6 +1,4 @@
-﻿
-
-using Organizations.Application.Features.Invitations.Get;
+﻿using Organizations.Application.Features.Invitations.Get;
 
 namespace Organizations.Application.Features.Users.GetUserInvitations;
 

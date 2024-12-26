@@ -1,6 +1,4 @@
-﻿using Organizations.Application.Features.Members.Get;
-
-namespace Organizations.Application.Repository;
+﻿namespace Organizations.Application.Repository;
 
 public interface IOrganizationRepository : IBaseRepository<Organization>
 {
