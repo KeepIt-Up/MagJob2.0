@@ -2,5 +2,5 @@
 
 public interface IRoleRepository : IBaseRepository<Role>
 {
-    Task<List<Role>> GetRolesByOrganizationId(Guid organizationId, CancellationToken cancellationToken = default);
+    Task<PaginatedList<Role, T>> GetRolesByOrganizationId<T>(Guid organizationId, PaginationOptions paginationOptions);
 }

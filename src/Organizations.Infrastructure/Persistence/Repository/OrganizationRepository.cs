@@ -5,11 +5,6 @@ internal class OrganizationRepository(
     ) : BaseRepository<Organization>(context), IOrganizationRepository
 {
 
-    public async Task<PaginatedList<Role, T>> GetRoles<T>(Guid organizationId, PaginationOptions paginationOptions)
-    {
-        return await PaginatedList<Role, T>.CreateAsync(Context.Set<Organization>().Where(o => o.ID == organizationId).SelectMany(o => o.Roles), paginationOptions);
-    }
-
     public async Task<PaginatedList<Member, T>> GetMembers<T>(Guid organizationId, PaginationOptions paginationOptions)
     {
         return await PaginatedList<Member, T>.CreateAsync(Context.Set<Organization>().Where(o => o.ID == organizationId).SelectMany(o => o.Members), paginationOptions);

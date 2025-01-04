@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Organizations.Application.Features.Roles.Create;
+using Organizations.Application.Features.Roles.Delete;
 using Organizations.Application.Features.Roles.Get;
 using Organizations.Application.Features.Roles.Update;
 
@@ -51,12 +52,12 @@ public class RolesController(IMediator mediator) : ControllerBase
     /// <param name="request"> The request object containing the role id </param>
     /// <returns> The deleted role </returns>
     /// <response code="200"> The deleted role </response>
-    // [HttpDelete("{id}")]
-    // public async Task<IActionResult> Delete(DeleteRoleRequest request)
-    // {
-    //     await _mediator.Send(request);
-    //     return NoContent();
-    // }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        await mediator.Send(new DeleteRoleRequest(id));
+        return NoContent();
+    }
 
     // [HttpPost("{id}/permissions")]
     // public async Task<IActionResult> AddPermissionsToRole(AddPermissionsToRoleRequest request)

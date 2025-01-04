@@ -20,17 +20,18 @@ public class BaseRepository<T>(
 
     public void Delete(T entity)
     {
-        entity.DateCreated = DateTimeOffset.UtcNow;
+        entity.IsDeleted = true;
+        entity.DateDeleted = DateTimeOffset.UtcNow;
         Context.Update(entity);
     }
 
     public Task<T?> Get(Guid id, CancellationToken cancellationToken)
     {
-        return Context.Set<T>().FirstOrDefaultAsync(x => x.ID == id, cancellationToken);
+        return Context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.ID == id, cancellationToken);
     }
 
-    public Task<List<T>> GetAll(CancellationToken cancellationToken)
+    public IQueryable<T> GetAll()
     {
-        return Context.Set<T>().ToListAsync(cancellationToken);
+        return Context.Set<T>().Where(x => !x.IsDeleted);
     }
 }

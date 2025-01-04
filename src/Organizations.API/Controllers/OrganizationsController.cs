@@ -1,6 +1,7 @@
 ﻿using Organizations.Application.Features.Organizations.Create;
 using Organizations.Application.Features.Organizations.CreateOrganizationInvitation;
 using Organizations.Application.Features.Organizations.Delete;
+using Organizations.Application.Features.Organizations.Get;
 using Organizations.Application.Features.Organizations.GetOrganizationInvitations;
 using Organizations.Application.Features.Organizations.GetOrganizationMembers;
 using Organizations.Application.Features.Organizations.GetOrganizationRoles;

@@ -1,14 +1,11 @@
-import { computed, Inject, inject, Injectable, signal } from '@angular/core';
-import { catchError, EMPTY, Observable, tap, throwError } from 'rxjs';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { NotificationService } from '@shared/services/notification.service';
 import { StateService } from '@shared/services/state.service';
 import { PaginatedResponse, PaginationOptions } from '@shared/components/pagination/pagination.component';
 import { Invitation } from '@features/models/invitation/invitation';
-import { Member } from '@features/models/member/member';
 import { CreateOrganizationPayload, OrganizationApiService, UpdateOrganizationPayload } from '@features/apis/organization.api.service';
 import { Organization } from '@features/models/organization/organization';
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
-import { ListStateService } from '@shared/services/list-state.service';
 
 @Injectable({
   providedIn: 'root',

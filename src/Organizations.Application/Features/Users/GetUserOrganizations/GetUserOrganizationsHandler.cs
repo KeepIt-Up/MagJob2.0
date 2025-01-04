@@ -1,11 +1,9 @@
-﻿using Organizations.Application.Common.Interfaces;
+﻿using Organizations.Application.Features.Organizations.Get;
 
 namespace Organizations.Application.Features.Users.GetUserOrganizations;
 
 public sealed class GetUserOrganizationsHandler(
-    IOrganizationRepository organizationRepository,
-    IUserAccessor userAccessor,
-    IMapper mapper
+    IOrganizationRepository organizationRepository
     ) : IRequestHandler<GetUserOrganizationsRequest, PaginatedList<Organization, GetOrganizationResponse>>
 {
     public async Task<PaginatedList<Organization, GetOrganizationResponse>> Handle(GetUserOrganizationsRequest request, CancellationToken cancellationToken)
