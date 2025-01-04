@@ -41,8 +41,9 @@ public class RolesController(IMediator mediator) : ControllerBase
     /// <returns> The updated role </returns>
     /// <response code="200"> The updated role </response>
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(UpdateRoleRequest request)
+    public async Task<IActionResult> Update(Guid id, UpdateRoleRequest request)
     {
+        request.Id = id;
         return Ok(await mediator.Send(request));
     }
 

@@ -6,7 +6,7 @@ public class Role : BaseEntity
 {
     public string Name { get; set; }
     public string? Description { get; set; }
-    public string? Color { get; set; }
+    public string Color { get; set; }
     public Guid OrganizationId { get; set; }
     public Organization Organization { get; set; }
     public List<Member> Members { get; set; } = new List<Member>();
@@ -20,8 +20,21 @@ public class Role : BaseEntity
             Name = name,
             OrganizationId = organizationId,
             Description = description,
-            Color = color
+            Color = color ?? "#000000"
         };
+    }
+
+    public void Update(string? name, string? color)
+    {
+        // @everyone is a reserved role name
+        if (name == "@everyone" && Name != "@everyone")
+            throw new InvalidOperationException("Name cannot be '@everyone'");
+        // @everyone cannot be updated
+        if (Name == "@everyone" && name != null && name != "@everyone")
+            throw new InvalidOperationException("Name '@everyone' cannot be updated");
+
+        Name = name ?? Name;
+        Color = color ?? Color;
     }
 
     public static Role[] GetDefaultRoles(Guid organizationId)

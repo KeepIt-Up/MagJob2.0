@@ -1,11 +1,23 @@
-﻿namespace Organizations.Application.Features.Roles.Update;
+﻿using Organizations.Application.Features.Roles.Get;
+
+namespace Organizations.Application.Features.Roles.Update;
 
 public sealed class UpdateRoleHandler(
-    IRoleRepository roleRepository
-    ) : IRequestHandler<UpdateRoleRequest, UpdateRoleResponse>
+    IRoleRepository roleRepository,
+    IUnitOfWork unitOfWork,
+    IMapper mapper
+    ) : IRequestHandler<UpdateRoleRequest, GetRoleResponse>
 {
-    public async Task<UpdateRoleResponse> Handle(UpdateRoleRequest request, CancellationToken cancellationToken)
+    public async Task<GetRoleResponse> Handle(UpdateRoleRequest request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var role = await roleRepository.Get(request.Id, cancellationToken);
+        if (role is null)
+            throw new NotFoundException("Role not found");
+
+        role.Update(request.Name, request.Color);
+
+        roleRepository.Update(role);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+        return mapper.Map<GetRoleResponse>(role);
     }
 }
