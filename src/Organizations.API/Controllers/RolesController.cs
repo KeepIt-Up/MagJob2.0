@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Organizations.Application.Features.Roles.AddMembers;
 using Organizations.Application.Features.Roles.Create;
 using Organizations.Application.Features.Roles.Delete;
 using Organizations.Application.Features.Roles.Get;
+using Organizations.Application.Features.Roles.RemoveMembers;
 using Organizations.Application.Features.Roles.Update;
+using Organizations.Application.Features.Roles.UpdateRolePermissions;
 
 namespace Organizations.API.Controllers;
 
@@ -60,27 +63,35 @@ public class RolesController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    // [HttpPost("{id}/permissions")]
-    // public async Task<IActionResult> AddPermissionsToRole(AddPermissionsToRoleRequest request)
-    // {
-    //     return Ok(await _mediator.Send(request));
-    // }
+    [HttpPost("{id}/permissions")]
+    public async Task<IActionResult> UpdateRolePermissions(Guid id, List<Guid> permissionIds)
+    {
+        return Ok(await mediator.Send(new UpdateRolePermissionsRequest(id, permissionIds)));
+    }
 
-    // [HttpDelete("{id}/permissions")]
-    // public async Task<IActionResult> RemovePermissionsFromRole(RemovePermissionsFromRoleRequest request)
-    // {
-    //     return Ok(await _mediator.Send(request));
-    // }
+    /// <summary>
+    /// Add members to a role
+    /// </summary>
+    /// <param name="request"> The request object containing the role id and the member ids </param>
+    /// <returns> The added members </returns>
+    /// <response code="200"> The added members </response>
+    [HttpPost("{id}/members")]
+    public async Task<IActionResult> AddMembersToRole(Guid id, AddMembersToRoleRequest request)
+    {
+        request.Id = id;
+        return Ok(await mediator.Send(request));
+    }
 
-    // [HttpPost("{id}/members")]
-    // public async Task<IActionResult> AddMembersToRole(AddMembersToRoleRequest request)
-    // {
-    //     return Ok(await _mediator.Send(request));
-    // }
-
-    // [HttpDelete("{id}/members")]
-    // public async Task<IActionResult> RemoveMembersFromRole(RemoveMembersFromRoleRequest request)
-    // {
-    //     return Ok(await _mediator.Send(request));
-    // }
+    /// <summary>
+    /// Remove members from a role
+    /// </summary>
+    /// <param name="request"> The request object containing the role id and the member ids </param>
+    /// <returns> The removed members </returns>
+    /// <response code="200"> The removed members </response>
+    [HttpDelete("{id}/members")]
+    public async Task<IActionResult> RemoveMembersFromRole(Guid id, RemoveMembersFromRoleRequest request)
+    {
+        request.Id = id;
+        return Ok(await mediator.Send(request));
+    }
 }

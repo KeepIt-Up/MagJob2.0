@@ -44,24 +44,43 @@ public class Role : BaseEntity
         ];
     }
 
-    public void AddPermissions(List<Permission> permissions)
+    public void UpdatePermissions(List<Permission> permissions)
     {
-        Permissions.AddRange(permissions);
-    }
+        // Create a HashSet of the new permission IDs for efficient lookup
+        var newPermissionIds = permissions.Select(p => p.ID).ToHashSet();
 
-    public void RemovePermissions(List<Permission> permissions)
-    {
-        Permissions.RemoveAll(p => permissions.Contains(p));
+        // Remove permissions that are no longer needed
+        Permissions.RemoveAll(p => !newPermissionIds.Contains(p.ID));
+
+        // Add only new permissions that don't already exist
+        var existingPermissionIds = Permissions.Select(p => p.ID).ToHashSet();
+        var permissionsToAdd = permissions.Where(p => !existingPermissionIds.Contains(p.ID));
+
+        Permissions.AddRange(permissionsToAdd);
     }
 
     public void AddMembers(List<Member> members)
     {
-        Members.AddRange(members);
+        try
+        {
+            Members.AddRange(members);
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Failed to add members to role", ex);
+        }
     }
 
     public void RemoveMembers(List<Member> members)
     {
-        Members.RemoveAll(m => members.Equals(m));
+        try
+        {
+            Members.RemoveAll(m => members.Equals(m));
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Failed to remove members from role", ex);
+        }
     }
 }
 
@@ -70,6 +89,8 @@ public class Permission : BaseEntity
     public string Name { get; set; }
     [JsonIgnore]
     public List<Role> Roles { get; set; } = new List<Role>();
+
+
 }
 
 public class CreateRolePayload

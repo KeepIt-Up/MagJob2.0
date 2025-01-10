@@ -103,7 +103,7 @@ export class RolesManagementComponent implements OnInit, OnDestroy {
   }
 
   updateRolePermissions() {
-    this.roleService.updateRolePermissions(this.selectedRolePermission$());
+    this.roleService.updateRolePermissions(this.selectedRole$()!.id, this.selectedRolePermission$().filter(p => p.value).map(p => p.permission.id)).subscribe();
   }
 
   togglePermission(permissionId: number) {

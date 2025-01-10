@@ -88,66 +88,16 @@ export class RoleService {
     );
   }
 
-  updateRolePermissions(permissions: { permission: Permission, value: boolean }[]) {
-    if (!this.selectedRole$()) return;
-
-    const currentPermissions = this.selectedRole$()!.permissions;
-    const addPermissions: number[] = [];
-    const removePermissions: number[] = [];
-
-    // Check which permissions need to be added/removed
-    permissions.forEach(({ permission, value }) => {
-      const hasPermission = currentPermissions.some(p => p.id === permission.id);
-
-      if (value && !hasPermission) {
-        // Permission was turned on but not currently assigned
-        addPermissions.push(permission.id);
-      } else if (!value && hasPermission) {
-        // Permission was turned off but currently assigned
-        removePermissions.push(permission.id);
-      }
-    });
-
-    // Create array of promises for API calls
-    const updatePromises: Promise<any>[] = [];
-
-    if (addPermissions.length) {
-      updatePromises.push(
-        this.addPermissionsToRole(
-          this.selectedRole$()!.id,
-          addPermissions
-        ).toPromise()
-      );
-    }
-
-    if (removePermissions.length) {
-      updatePromises.push(
-        this.removePermissionsFromRole(
-          this.selectedRole$()!.id,
-          removePermissions
-        ).toPromise()
-      );
-    }
-
-    // Execute all updates
-    if (updatePromises.length) {
-      Promise.all(updatePromises)
-        .then(() => {
-          this.notificationService.show('Permissions updated successfully', 'success');
-          this.selectedRole$()!.permissions = permissions.filter(p => p.value).map(p => p.permission);
-        })
-        .catch(() => {
-          this.notificationService.show('Failed to update permissions', 'error');
-        });
-    }
-  }
-
-  addPermissionsToRole(roleId: string, permissionIds: number[]) {
-    return this.apiService.addPermissionsToRole(roleId, permissionIds);
-  }
-
-  removePermissionsFromRole(roleId: string, permissionIds: number[]) {
-    return this.apiService.removePermissionsFromRole(roleId, permissionIds);
+  updateRolePermissions(roleId: string, permissionIds: number[]) {
+    return this.apiService.updateRolePermissions(roleId, permissionIds).pipe(
+      tap(() => {
+        this.notificationService.show('Permissions updated successfully', 'success');
+      }),
+      catchError((error) => {
+        this.notificationService.show('Failed to update permissions', 'error');
+        return throwError(() => error);
+      })
+    );
   }
 
   addMembersToRole(roleId: string, memberIds: string[]) {
