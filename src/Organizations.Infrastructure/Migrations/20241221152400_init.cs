@@ -15,7 +15,7 @@ public partial class init : Migration
             name: "Organizations",
             columns: table => new
             {
-                ID = table.Column<Guid>(type: "uuid", nullable: false),
+                Id = table.Column<Guid>(type: "uuid", nullable: false),
                 Name = table.Column<string>(type: "text", nullable: false),
                 Description = table.Column<string>(type: "text", nullable: true),
                 Archived = table.Column<bool>(type: "boolean", nullable: false),
@@ -29,14 +29,14 @@ public partial class init : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_Organizations", x => x.ID);
+                table.PrimaryKey("PK_Organizations", x => x.Id);
             });
 
         migrationBuilder.CreateTable(
             name: "Permissions",
             columns: table => new
             {
-                ID = table.Column<Guid>(type: "uuid", nullable: false),
+                Id = table.Column<Guid>(type: "uuid", nullable: false),
                 Name = table.Column<string>(type: "text", nullable: false),
                 DateCreated = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                 DateUpdated = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
@@ -45,14 +45,14 @@ public partial class init : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_Permissions", x => x.ID);
+                table.PrimaryKey("PK_Permissions", x => x.Id);
             });
 
         migrationBuilder.CreateTable(
             name: "Invitations",
             columns: table => new
             {
-                ID = table.Column<Guid>(type: "uuid", nullable: false),
+                Id = table.Column<Guid>(type: "uuid", nullable: false),
                 OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
                 UserId = table.Column<Guid>(type: "uuid", nullable: false),
                 Status = table.Column<int>(type: "integer", nullable: false),
@@ -63,12 +63,12 @@ public partial class init : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_Invitations", x => x.ID);
+                table.PrimaryKey("PK_Invitations", x => x.Id);
                 table.ForeignKey(
                     name: "FK_Invitations_Organizations_OrganizationId",
                     column: x => x.OrganizationId,
                     principalTable: "Organizations",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -76,7 +76,7 @@ public partial class init : Migration
             name: "Members",
             columns: table => new
             {
-                ID = table.Column<Guid>(type: "uuid", nullable: false),
+                Id = table.Column<Guid>(type: "uuid", nullable: false),
                 FirstName = table.Column<string>(type: "text", nullable: true),
                 LastName = table.Column<string>(type: "text", nullable: true),
                 Notes = table.Column<string>(type: "text", nullable: true),
@@ -90,12 +90,12 @@ public partial class init : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_Members", x => x.ID);
+                table.PrimaryKey("PK_Members", x => x.Id);
                 table.ForeignKey(
                     name: "FK_Members_Organizations_OrganizationId",
                     column: x => x.OrganizationId,
                     principalTable: "Organizations",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -103,7 +103,7 @@ public partial class init : Migration
             name: "Roles",
             columns: table => new
             {
-                ID = table.Column<Guid>(type: "uuid", nullable: false),
+                Id = table.Column<Guid>(type: "uuid", nullable: false),
                 Name = table.Column<string>(type: "text", nullable: false),
                 Description = table.Column<string>(type: "text", nullable: true),
                 Color = table.Column<string>(type: "text", nullable: true),
@@ -115,12 +115,12 @@ public partial class init : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_Roles", x => x.ID);
+                table.PrimaryKey("PK_Roles", x => x.Id);
                 table.ForeignKey(
                     name: "FK_Roles_Organizations_OrganizationId",
                     column: x => x.OrganizationId,
                     principalTable: "Organizations",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -128,23 +128,23 @@ public partial class init : Migration
             name: "MemberRole",
             columns: table => new
             {
-                MembersID = table.Column<Guid>(type: "uuid", nullable: false),
-                RolesID = table.Column<Guid>(type: "uuid", nullable: false)
+                MembersId = table.Column<Guid>(type: "uuid", nullable: false),
+                RolesId = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_MemberRole", x => new { x.MembersID, x.RolesID });
+                table.PrimaryKey("PK_MemberRole", x => new { x.MembersId, x.RolesId });
                 table.ForeignKey(
-                    name: "FK_MemberRole_Members_MembersID",
-                    column: x => x.MembersID,
+                    name: "FK_MemberRole_Members_MembersId",
+                    column: x => x.MembersId,
                     principalTable: "Members",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
                 table.ForeignKey(
-                    name: "FK_MemberRole_Roles_RolesID",
-                    column: x => x.RolesID,
+                    name: "FK_MemberRole_Roles_RolesId",
+                    column: x => x.RolesId,
                     principalTable: "Roles",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -152,23 +152,23 @@ public partial class init : Migration
             name: "PermissionRole",
             columns: table => new
             {
-                PermissionsID = table.Column<Guid>(type: "uuid", nullable: false),
-                RolesID = table.Column<Guid>(type: "uuid", nullable: false)
+                PermissionsId = table.Column<Guid>(type: "uuid", nullable: false),
+                RolesId = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsID, x.RolesID });
+                table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsId, x.RolesId });
                 table.ForeignKey(
-                    name: "FK_PermissionRole_Permissions_PermissionsID",
-                    column: x => x.PermissionsID,
+                    name: "FK_PermissionRole_Permissions_PermissionsId",
+                    column: x => x.PermissionsId,
                     principalTable: "Permissions",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
                 table.ForeignKey(
-                    name: "FK_PermissionRole_Roles_RolesID",
-                    column: x => x.RolesID,
+                    name: "FK_PermissionRole_Roles_RolesId",
+                    column: x => x.RolesId,
                     principalTable: "Roles",
-                    principalColumn: "ID",
+                    principalColumn: "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -178,9 +178,9 @@ public partial class init : Migration
             column: "OrganizationId");
 
         migrationBuilder.CreateIndex(
-            name: "IX_MemberRole_RolesID",
+            name: "IX_MemberRole_RolesId",
             table: "MemberRole",
-            column: "RolesID");
+            column: "RolesId");
 
         migrationBuilder.CreateIndex(
             name: "IX_Members_OrganizationId",
@@ -188,9 +188,9 @@ public partial class init : Migration
             column: "OrganizationId");
 
         migrationBuilder.CreateIndex(
-            name: "IX_PermissionRole_RolesID",
+            name: "IX_PermissionRole_RolesId",
             table: "PermissionRole",
-            column: "RolesID");
+            column: "RolesId");
 
         migrationBuilder.CreateIndex(
             name: "IX_Roles_OrganizationId",

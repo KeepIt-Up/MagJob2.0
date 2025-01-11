@@ -6,7 +6,7 @@ public sealed class UpdateOrganizationValidator : AbstractValidator<UpdateOrgani
     {
         RuleFor(x => x.OrganizationId)
             .NotEmpty()
-            .WithMessage("Organization ID is required");
+            .WithMessage("Organization Id is required");
         RuleFor(x => x.Name)
             .Must(name => name == null || name.Length <= 50)
             .WithMessage("Name must be less than 50 characters");

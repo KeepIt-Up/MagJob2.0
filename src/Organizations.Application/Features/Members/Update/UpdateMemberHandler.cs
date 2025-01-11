@@ -10,10 +10,10 @@ public sealed class UpdateMemberHandler(
 {
     public async Task<GetMemberResponse> Handle(UpdateMemberRequest request, CancellationToken cancellationToken)
     {
-        var member = await memberRepository.Get(request.ID, cancellationToken);
+        var member = await memberRepository.Get(request.Id, cancellationToken);
         if (member is null)
         {
-            throw new NotFoundException("Member with ID {request.ID} not found");
+            throw new NotFoundException("Member with Id {request.Id} not found");
         }
 
         member.Update(request.FirstName, request.LastName, request.Notes);

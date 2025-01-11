@@ -47,14 +47,14 @@ public class Role : BaseEntity
     public void UpdatePermissions(List<Permission> permissions)
     {
         // Create a HashSet of the new permission IDs for efficient lookup
-        var newPermissionIds = permissions.Select(p => p.ID).ToHashSet();
+        var newPermissionIds = permissions.Select(p => p.Id).ToHashSet();
 
         // Remove permissions that are no longer needed
-        Permissions.RemoveAll(p => !newPermissionIds.Contains(p.ID));
+        Permissions.RemoveAll(p => !newPermissionIds.Contains(p.Id));
 
         // Add only new permissions that don't already exist
-        var existingPermissionIds = Permissions.Select(p => p.ID).ToHashSet();
-        var permissionsToAdd = permissions.Where(p => !existingPermissionIds.Contains(p.ID));
+        var existingPermissionIds = Permissions.Select(p => p.Id).ToHashSet();
+        var permissionsToAdd = permissions.Where(p => !existingPermissionIds.Contains(p.Id));
 
         Permissions.AddRange(permissionsToAdd);
     }

@@ -21,7 +21,7 @@ namespace Organizations.Application.Features.Roles.AddMembers
                 throw new NotFoundException("Organization not found");
 
             // check members exists
-            var members = organization.Members.Where(m => request.MemberIds.Contains(m.ID)).ToList();
+            var members = organization.Members.Where(m => request.MemberIds.Contains(m.Id)).ToList();
             if (members.Count != request.MemberIds.Count)
                 throw new NotFoundException("Some members not found");
 

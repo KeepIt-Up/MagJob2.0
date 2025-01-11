@@ -16,7 +16,7 @@ namespace Organizations.Application.Features.Roles.UpdateRolePermissions
                 throw new NotFoundException("Role not found");
 
             //get selected permissions
-            var selectedPermissions = permissionRepository.GetAll().Where(p => request.PermissionIds.Contains(p.ID)).ToList();
+            var selectedPermissions = permissionRepository.GetAll().Where(p => request.PermissionIds.Contains(p.Id)).ToList();
 
             role.UpdatePermissions(selectedPermissions);
 

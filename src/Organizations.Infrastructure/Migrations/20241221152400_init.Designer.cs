@@ -27,22 +27,22 @@ partial class init
 
         modelBuilder.Entity("MemberRole", b =>
             {
-                b.Property<Guid>("MembersID")
+                b.Property<Guid>("MembersId")
                     .HasColumnType("uuid");
 
-                b.Property<Guid>("RolesID")
+                b.Property<Guid>("RolesId")
                     .HasColumnType("uuid");
 
-                b.HasKey("MembersID", "RolesID");
+                b.HasKey("MembersId", "RolesId");
 
-                b.HasIndex("RolesID");
+                b.HasIndex("RolesId");
 
                 b.ToTable("MemberRole");
             });
 
         modelBuilder.Entity("Organizations.Domain.Entities.Invitation", b =>
             {
-                b.Property<Guid>("ID")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("uuid");
 
@@ -67,7 +67,7 @@ partial class init
                 b.Property<Guid>("UserId")
                     .HasColumnType("uuid");
 
-                b.HasKey("ID");
+                b.HasKey("Id");
 
                 b.HasIndex("OrganizationId");
 
@@ -76,7 +76,7 @@ partial class init
 
         modelBuilder.Entity("Organizations.Domain.Entities.Member", b =>
             {
-                b.Property<Guid>("ID")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("uuid");
 
@@ -110,7 +110,7 @@ partial class init
                 b.Property<Guid>("UserId")
                     .HasColumnType("uuid");
 
-                b.HasKey("ID");
+                b.HasKey("Id");
 
                 b.HasIndex("OrganizationId");
 
@@ -119,7 +119,7 @@ partial class init
 
         modelBuilder.Entity("Organizations.Domain.Entities.Organization", b =>
             {
-                b.Property<Guid>("ID")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("uuid");
 
@@ -154,14 +154,14 @@ partial class init
                 b.Property<byte[]>("ProfileImage")
                     .HasColumnType("bytea");
 
-                b.HasKey("ID");
+                b.HasKey("Id");
 
                 b.ToTable("Organizations");
             });
 
         modelBuilder.Entity("Organizations.Domain.Entities.Permission", b =>
             {
-                b.Property<Guid>("ID")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("uuid");
 
@@ -181,14 +181,14 @@ partial class init
                     .IsRequired()
                     .HasColumnType("text");
 
-                b.HasKey("ID");
+                b.HasKey("Id");
 
                 b.ToTable("Permissions");
             });
 
         modelBuilder.Entity("Organizations.Domain.Entities.Role", b =>
             {
-                b.Property<Guid>("ID")
+                b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("uuid");
 
@@ -217,7 +217,7 @@ partial class init
                 b.Property<Guid>("OrganizationId")
                     .HasColumnType("uuid");
 
-                b.HasKey("ID");
+                b.HasKey("Id");
 
                 b.HasIndex("OrganizationId");
 
@@ -226,15 +226,15 @@ partial class init
 
         modelBuilder.Entity("PermissionRole", b =>
             {
-                b.Property<Guid>("PermissionsID")
+                b.Property<Guid>("PermissionsId")
                     .HasColumnType("uuid");
 
-                b.Property<Guid>("RolesID")
+                b.Property<Guid>("RolesId")
                     .HasColumnType("uuid");
 
-                b.HasKey("PermissionsID", "RolesID");
+                b.HasKey("PermissionsId", "RolesId");
 
-                b.HasIndex("RolesID");
+                b.HasIndex("RolesId");
 
                 b.ToTable("PermissionRole");
             });
@@ -243,13 +243,13 @@ partial class init
             {
                 b.HasOne("Organizations.Domain.Entities.Member", null)
                     .WithMany()
-                    .HasForeignKey("MembersID")
+                    .HasForeignKey("MembersId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 b.HasOne("Organizations.Domain.Entities.Role", null)
                     .WithMany()
-                    .HasForeignKey("RolesID")
+                    .HasForeignKey("RolesId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
@@ -291,13 +291,13 @@ partial class init
             {
                 b.HasOne("Organizations.Domain.Entities.Permission", null)
                     .WithMany()
-                    .HasForeignKey("PermissionsID")
+                    .HasForeignKey("PermissionsId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
                 b.HasOne("Organizations.Domain.Entities.Role", null)
                     .WithMany()
-                    .HasForeignKey("RolesID")
+                    .HasForeignKey("RolesId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });

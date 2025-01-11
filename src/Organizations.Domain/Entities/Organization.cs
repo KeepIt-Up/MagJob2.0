@@ -29,7 +29,7 @@ public class Organization : BaseEntity
         };
 
         //seed default roles
-        organization.Roles.AddRange(Role.GetDefaultRoles(organization.ID));
+        organization.Roles.AddRange(Role.GetDefaultRoles(organization.Id));
 
         //add owner to organization
         organization.AddMember(ownerId, null, null);
@@ -64,10 +64,10 @@ public class Organization : BaseEntity
     {
         //check user is not already a member
         if (IsMember(userId))
-            throw new DomainException("User with id " + userId + " is already a member of organization with id " + ID);
+            throw new DomainException("User with id " + userId + " is already a member of organization with id " + Id);
 
         //create invitation
-        var invitation = Invitation.Create(ID, userId);
+        var invitation = Invitation.Create(Id, userId);
         Invitations.Add(invitation);
 
         return invitation;
@@ -75,7 +75,7 @@ public class Organization : BaseEntity
 
     public Member AddMember(Guid userId, string firstName, string lastName)
     {
-        var member = Member.Create(userId, ID, firstName, lastName, Roles.First(r => r.Name == "@everyone"));
+        var member = Member.Create(userId, Id, firstName, lastName, Roles.First(r => r.Name == "@everyone"));
         Members.Add(member);
         return member;
     }
@@ -89,14 +89,17 @@ public class Organization : BaseEntity
 
     public Role AddRole(string name, string? description, string? color)
     {
-        var role = Role.Create(name, ID, description, color);
+        var role = Role.Create(name, Id, description, color);
         Roles.Add(role);
         return role;
     }
 
     public Role RemoveRole(Guid roleId)
     {
-        var role = Roles.FirstOrDefault(r => r.ID == roleId);
+        var role = Roles.FirstOrDefault(r => r.Id == roleId);
+        if (role == null)
+            throw new DomainException("Role with id " + roleId + " not found in organization with id " + Id);
+
         Roles.Remove(role);
         return role;
     }

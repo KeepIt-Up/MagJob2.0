@@ -17,7 +17,7 @@ public sealed class CreateRoleHandler(
             throw new NotFoundException("Organization not found");
         }
 
-        var role = Role.Create(request.Name, organization.ID, request.Description, request.Color);
+        var role = Role.Create(request.Name, organization.Id, request.Description, request.Color);
         roleRepository.Create(role);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 

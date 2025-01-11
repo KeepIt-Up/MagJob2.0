@@ -24,7 +24,7 @@ public class Invitation : BaseEntity
     public Member Accept()
     {
         if (Status != InvitationStatus.Pending)
-            throw new InvalidOperationException($"Invitation with ID {ID} is not pending.");
+            throw new InvalidOperationException($"Invitation with Id {Id} is not pending.");
 
         return Organization.AddMember(UserId, "", "");
     }
@@ -32,7 +32,7 @@ public class Invitation : BaseEntity
     public void Reject()
     {
         if (Status != InvitationStatus.Pending)
-            throw new InvalidOperationException($"Invitation with ID {ID} is not pending.");
+            throw new InvalidOperationException($"Invitation with Id {Id} is not pending.");
 
         Status = InvitationStatus.Rejected;
     }

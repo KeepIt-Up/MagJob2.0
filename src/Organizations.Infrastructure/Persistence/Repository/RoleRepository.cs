@@ -6,7 +6,7 @@ internal class RoleRepository(
 {
     public async Task<Role?> GetWithPermissions(Guid id, CancellationToken cancellationToken)
     {
-        return await GetAll().Where(r => r.ID == id).Include(r => r.Permissions).FirstOrDefaultAsync(cancellationToken);
+        return await GetAll().Where(r => r.Id == id).Include(r => r.Permissions).FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<PaginatedList<Role, T>> GetRolesByOrganizationId<T>(Guid organizationId, PaginationOptions paginationOptions)

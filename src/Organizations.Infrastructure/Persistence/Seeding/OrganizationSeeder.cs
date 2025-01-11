@@ -58,16 +58,16 @@ public static class OrganizationSeeder
 
     private static void SeedInvitations(Organization organization)
     {
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
-        organization.Invitations.Add(Invitation.Create(organization.ID, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
+        organization.Invitations.Add(Invitation.Create(organization.Id, Guid.NewGuid()));
     }
 }

@@ -27,7 +27,7 @@ public class BaseRepository<T>(
 
     public Task<T?> Get(Guid id, CancellationToken cancellationToken)
     {
-        return Context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.ID == id, cancellationToken);
+        return Context.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public IQueryable<T> GetAll()

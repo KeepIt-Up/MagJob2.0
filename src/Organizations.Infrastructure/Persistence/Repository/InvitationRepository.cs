@@ -6,6 +6,6 @@ internal class InvitationRepository(
 {
     public async Task<Invitation?> GetWithOrganizationByIdAsync(Guid id)
     {
-        return await Context.Invitations.Include(i => i.Organization).FirstOrDefaultAsync(i => i.ID == id);
+        return await Context.Invitations.Include(i => i.Organization).FirstOrDefaultAsync(i => i.Id == id);
     }
 }
