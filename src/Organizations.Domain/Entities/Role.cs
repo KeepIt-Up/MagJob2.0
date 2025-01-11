@@ -87,6 +87,7 @@ public class Role : BaseEntity
 public class Permission : BaseEntity
 {
     public string Name { get; set; }
+    public string? Description { get; set; }
     [JsonIgnore]
     public List<Role> Roles { get; set; } = new List<Role>();
 

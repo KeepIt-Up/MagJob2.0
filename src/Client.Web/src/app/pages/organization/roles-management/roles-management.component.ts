@@ -73,7 +73,11 @@ export class RolesManagementComponent implements OnInit, OnDestroy {
   }
 
   loadMoreRoles() {
-    this.roleService.getRoles(this.organizationId).subscribe();
+    this.roleService.getRoles(this.organizationId).subscribe(() => {
+      if (!this.selectedRole$() && this.state$().data?.length) {
+        this.selectRole(this.state$().data![0]);
+      }
+    });
   }
 
   selectRole(role: Role) {

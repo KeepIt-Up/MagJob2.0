@@ -6,6 +6,7 @@ public sealed class GetPermissionMapper : IRegister
     {
         config.NewConfig<Permission, GetPermissionResponse>()
             .Map(dest => dest.ID, src => src.ID)
-            .Map(dest => dest.Name, src => src.Name);
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.Description, src => src.Description);
     }
 }
