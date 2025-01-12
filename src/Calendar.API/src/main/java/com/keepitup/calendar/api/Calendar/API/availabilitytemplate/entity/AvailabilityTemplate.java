@@ -28,19 +28,15 @@ public class AvailabilityTemplate {
     private String name;
 
     @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "organizationId", nullable = false)
     private BigInteger organizationId;
 
     @NotNull
-    @Column(name = "status", nullable = false)
-    private BigInteger memberCreatorId;
-
-    @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "startDayOfWeek", nullable = false)
     private String startDayOfWeek;
 
     @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "numberOfDays", nullable = false)
     private Integer numberOfDays;
 
     // Getters and setters

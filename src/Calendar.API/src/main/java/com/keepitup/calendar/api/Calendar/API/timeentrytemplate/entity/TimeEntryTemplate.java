@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigInteger;
 import java.time.LocalTime;
+import java.util.Collection;
 import java.util.UUID;
 
 @Getter
@@ -19,27 +20,25 @@ import java.util.UUID;
 @Entity
 @Table(name = "time_entry_templates")
 public class TimeEntryTemplate {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memberSequenceGenerator")
     @SequenceGenerator(name = "memberSequenceGenerator")
     private BigInteger id;
 
     @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "startTime", nullable = false)
     private LocalTime startTime;
 
     @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "endTime", nullable = false)
     private LocalTime endTime;
 
     @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "startDayOffset", nullable = false)
     private Integer startDayOffset;
 
     @NotNull
-    @Column(name = "status", nullable = false)
+    @Column(name = "endDayOffset", nullable = false)
     private Integer endDayOffset;
 
-    // Getters and setters
 }
