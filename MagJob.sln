@@ -19,11 +19,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizations.API", "src\Or
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CF0ECB31-1902-4CEB-974F-48F739DD7096}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizations.Infrastructure", "src\Organizations.Infrastructure\Organizations.Infrastructure.csproj", "{86EF166D-637F-443C-B10D-83483629642D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizations.Infrastructure", "src\Organizations.Infrastructure\Organizations.Infrastructure.csproj", "{86EF166D-637F-443C-B10D-83483629642D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Organizations.Application", "src\Organizations.Application\Organizations.Application.csproj", "{F956576A-DBA0-4F82-9339-72F89AF1331C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizations.Application", "src\Organizations.Application\Organizations.Application.csproj", "{F956576A-DBA0-4F82-9339-72F89AF1331C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Organizations.Domain", "src\Organizations.Domain\Organizations.Domain.csproj", "{57B25C00-7234-4AFE-8550-5F9019D1CC90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11821349-8789-47D1-AFF6-39F074D13977}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

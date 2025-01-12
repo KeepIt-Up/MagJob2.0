@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Organizations.Infrastructure.Common;
 
@@ -12,27 +13,18 @@ public class PaginationOptions
 
 public abstract record QueryWithPaginationOptions
 {
-    public PaginationOptions Options { get; init; }
+    public PaginationOptions Options { get; init; } = new PaginationOptions();
 }
 
-public class PaginatedList<TSource, TDestination>
+public class PaginatedList<TSource, TDestination>(IEnumerable<TDestination> items, int count, int pageNumber, int pageSize)
 {
-    public IEnumerable<TDestination> Items { get; }
-    public int PageNumber { get; }
-    public int TotalPages { get; }
-    public int TotalCount { get; }
-    public int PageSize { get; }
+    public IEnumerable<TDestination> Items { get; } = items;
+    public int PageNumber { get; } = pageNumber;
+    public int TotalPages { get; } = (int)Math.Ceiling(count / (double)pageSize);
+    public int TotalCount { get; } = count;
+    public int PageSize { get; } = pageSize;
     public bool HasPreviousPage => PageNumber > 1;
     public bool HasNextPage => PageNumber < TotalPages;
-
-    public PaginatedList(IEnumerable<TDestination> items, int count, int pageNumber, int pageSize)
-    {
-        PageNumber = pageNumber;
-        PageSize = pageSize;
-        TotalCount = count;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-        Items = items;
-    }
 
     public static async Task<PaginatedList<TSource, TDestination>> CreateAsync(IQueryable<TSource> source, PaginationOptions options)
     {
@@ -43,7 +35,7 @@ public class PaginatedList<TSource, TDestination>
         IQueryable<TSource> source,
         int pageNumber,
         int pageSize,
-        string sortField = null,
+        string? sortField,
         bool ascending = true)
     {
         if (!string.IsNullOrEmpty(sortField))
@@ -58,10 +50,10 @@ public class PaginatedList<TSource, TDestination>
                 .First(m => m.Name == methodName && m.GetParameters().Length == 2)
                 .MakeGenericMethod(typeof(TSource), property.Type);
 
-            source = (IQueryable<TSource>)orderByMethod.Invoke(null, new object[] { source, lambda });
+            source = orderByMethod.Invoke(null, [source, lambda]) as IQueryable<TSource> ?? throw new Exception();
         }
 
-        var count = source.Count();
+        var count = await source.CountAsync();
         var items = source.Skip((pageNumber - 1) * pageSize)
                                .Take(pageSize)
                                .ToList()
