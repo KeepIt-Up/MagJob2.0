@@ -12,11 +12,18 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+# Copy Directory.Build.props first
+COPY ["Directory.Build.props", "."]
+COPY ["Directory.Packages.props", "."]
+# Copy all csproj files
 COPY ["src/Organizations.API/Organizations.API.csproj", "src/Organizations.API/"]
-RUN dotnet restore "./src/Organizations.API/Organizations.API.csproj"
+COPY ["src/Organizations.Domain/Organizations.Domain.csproj", "src/Organizations.Domain/"]
+COPY ["src/Organizations.Infrastructure/Organizations.Infrastructure.csproj", "src/Organizations.Infrastructure/"]
+COPY ["src/Organizations.Application/Organizations.Application.csproj", "src/Organizations.Application/"]
+RUN dotnet restore "src/Organizations.API/Organizations.API.csproj"
 COPY . .
 WORKDIR "/src/src/Organizations.API"
-RUN dotnet build "./Organizations.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Organizations.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
