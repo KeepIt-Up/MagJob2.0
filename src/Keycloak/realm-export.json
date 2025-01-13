@@ -795,10 +795,12 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://localhost:8080/*",
         "https://localhost:5001/*",
         "http://localhost:4200/*"
       ],
       "webOrigins": [
+        "http://localhost:8080",
         "http://localhost:4200"
       ],
       "notBefore": 0,
@@ -806,7 +808,7 @@
       "consentRequired": false,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": true,
-      "directAccessGrantsEnabled": true,
+      "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": false,
       "publicClient": true,
       "frontchannelLogout": true,
