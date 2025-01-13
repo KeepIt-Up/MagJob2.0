@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Invitation } from '@features/models/invitation/invitation';
 import { BaseApiService } from '@shared/services/base-api.service';
+import { environment } from '@environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvitationApiService extends BaseApiService<Invitation> {
 
-  override readonly apiUrl = '/api/invitations';
+  override readonly apiUrl = environment.apiUrl + '/invitations';
 
   acceptInvitation(invitationId: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${invitationId}/accept`, {});
