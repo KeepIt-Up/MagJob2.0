@@ -36,7 +36,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(Configuration["OrganizationConnection"]);
+        optionsBuilder.UseNpgsql(Configuration.GetConnectionString("OrganizationConnection"));
     }
 
     public override int SaveChanges()
