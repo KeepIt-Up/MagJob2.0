@@ -9,7 +9,7 @@ import { environment } from '@environments/environment';
 })
 export class InvitationApiService extends BaseApiService<Invitation> {
 
-  override readonly apiUrl = environment.apiUrl + '/invitations';
+  override readonly apiUrl = '/api/invitations';
 
   acceptInvitation(invitationId: string): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${invitationId}/accept`, {});

@@ -9,7 +9,7 @@ import { environment } from "@environments/environment";
   providedIn: 'root'
 })
 export class RoleApiService extends BaseApiService<Role> {
-  override readonly apiUrl = environment.apiUrl + '/roles';
+  override readonly apiUrl = '/api/roles';
 
   getAllRoles(query: Record<any, any>, paginationOptions: PaginationOptions<Role>) {
     const options = serializePaginationOptions(paginationOptions);

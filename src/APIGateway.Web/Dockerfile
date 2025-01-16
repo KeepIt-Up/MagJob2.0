@@ -28,16 +28,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Generate dev certificate
-USER root
-RUN apt-get update && apt-get install -y openssl
-RUN mkdir -p /https
-RUN openssl req -x509 -newkey rsa:4096 -keyout /https/key.pem -out /https/cert.pem -days 365 -nodes -subj '/CN=localhost'
-RUN chown -R app:app /https
-USER app
-
-ENV ASPNETCORE_URLS=https://+:8081;http://+:8080
-ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/cert.pem
-ENV ASPNETCORE_Kestrel__Certificates__Default__KeyPath=/https/key.pem
-
 ENTRYPOINT ["dotnet", "APIGateway.Web.dll"]

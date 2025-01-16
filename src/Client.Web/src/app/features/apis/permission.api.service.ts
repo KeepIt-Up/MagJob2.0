@@ -10,7 +10,7 @@ import { environment } from '@environments/environment';
 })
 export class PermissionApiService {
 
-  private readonly apiUrl = environment.apiUrl + '/permissions';
+  private readonly apiUrl = '/api/permissions';
   private http = inject(HttpClient);
 
   getAllPermissions(): Observable<Permission[]> {

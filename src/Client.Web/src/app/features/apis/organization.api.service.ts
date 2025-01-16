@@ -28,7 +28,7 @@ export interface UpdateOrganizationPayload {
 })
 export class OrganizationApiService extends BaseApiService<Organization> {
 
-  override readonly apiUrl = environment.apiUrl + '/organizations';
+  override readonly apiUrl = '/api/organizations';
 
   getInvitations(query: Record<any, any>, paginationOptions: PaginationOptions<Invitation>): Observable<PaginatedResponse<Invitation>> {
     const options = serializePaginationOptions(paginationOptions);

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class UserApiService {
 
-  private readonly apiUrl = environment.apiUrl + '/users';
+  private readonly apiUrl = '/api/users';
   private http = inject(HttpClient);
 
   getUserOrganizations(query: Record<any, any>, paginationOptions: PaginationOptions<Organization>): Observable<PaginatedResponse<Organization>> {

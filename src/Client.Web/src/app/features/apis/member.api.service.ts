@@ -12,7 +12,7 @@ import { environment } from '@environments/environment';
 })
 export class MemberApiService extends BaseApiService<Member> {
 
-  override readonly apiUrl = environment.apiUrl + '/members';
+  override readonly apiUrl = '/api/members';
 
   archiveMember(memberId: string) {
     return this.http.put(`${this.apiUrl}/${memberId}/archive`, {});
