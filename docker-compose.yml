@@ -1,17 +1,27 @@
 services:
-  magjob.api:
-    image: magjob.api:latest
-    container_name: magjob.api
+  apigateway.web:
+    image: ${DOCKER_REGISTRY-}apigatewayweb
+    container_name: apigateway.web
     build:
-      context: src/MagJob.API/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/APIGateway.Web/Dockerfile
     ports:
-      - "5001:5001"
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://magjob.database:5433/magjob
+      - "5000:8080"
+      - "5001:8081"
     depends_on:
-      - keycloak
-      - magjob.database
+      - organizations.api
+
+  organizations.api:
+    image: ${DOCKER_REGISTRY-}organizationsapi
+    container_name: organizations.api
+    build:
+      context: .
+      dockerfile: src/Organizations.API/Dockerfile
+    environment:
+      - ConnectionStrings__OrganizationConnection=Host=magjob.database;Database=magjob;Username=postgres;Password=postgres;
+    depends_on:
+      magjob.database:
+        condition: service_healthy
 
   magjob.database:
     image: postgres:latest
@@ -24,17 +34,22 @@ services:
       - "5433:5432"
     volumes:
       - ${APPDATA}/MagJob2.0/db/magjob:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   magjob.web:
-    image: magjob.web:latest
+    image: ${DOCKER_REGISTRY-}magjobweb
     container_name: magjob.web
     build:
-      context: src/Client.Web/
+      context: ./src/Client.Web/
       dockerfile: Dockerfile
     ports:
       - "8080:4200"
     depends_on:
-      - magjob.api
+      - apigateway.web
 
   keycloak:
     image: quay.io/keycloak/keycloak:latest

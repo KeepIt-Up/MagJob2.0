@@ -1,0 +1,24 @@
+{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5001"
+  },
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/{everything}",
+      "UpstreamHttpMethod": [
+        "POST",
+        "PUT",
+        "GET",
+        "DELETE"
+      ],
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "organizations.api",
+          "Port": 8080
+        }
+      ]
+    }
+  ]
+}
